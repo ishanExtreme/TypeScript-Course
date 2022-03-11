@@ -1,25 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import 'tw-elements';
+import AppContainer from './AppContainer';
+import FormField from './FormField';
+import Header from './Header';
+
+const formFields = [
+  {id:1, label: "First Name", type: "text"},
+  {id:2, label: "Last Name", type: "text"},
+  {id:3, label: "Email", type: "email"},
+  {id:4, label: "Phone Number", type: "tel"},
+  {id:5, label: "Date of Birth", type: "date"},
+]
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContainer>
+      <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
+        <Header title="Welcome to #react-typescript with #tailwindcss "/>
+        <div className="ml-12">
+          {formFields.map((field)=>(
+            <FormField key={field.id} label={field.label} type={field.type}/>
+          ))}
+        </div>
+      </div>
+    </AppContainer>
   );
 }
 
