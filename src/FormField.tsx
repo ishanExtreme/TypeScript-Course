@@ -23,6 +23,7 @@ export default function FormField(props:{label:string, type:string}){
                 focus:bg-white 
                 focus:border-blue-600 
                 focus:outline-none"/>
+                
                 <label htmlFor="floatingInput" className="text-gray-700">
                     {props.label}
                 </label>
