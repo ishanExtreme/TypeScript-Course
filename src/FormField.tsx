@@ -1,10 +1,13 @@
 import React from "react";
 
-export default function FormField(props:{label:string, type:string}){
+export default function FormField(props:{label:string, type:string, handleChangeCB:(e:any)=>void, value:string, id:string}){
     return (
         <div className="form-floating mb-3 xl:w-96">
-                <input 
-                type={props.type} 
+                <input
+                id={props.id} 
+                type={props.type}
+                onChange={props.handleChangeCB}
+                value={props.value} 
                 className="form-control
                 block
                 w-full
