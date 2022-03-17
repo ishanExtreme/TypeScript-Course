@@ -16,6 +16,28 @@ const formFields = [
 function App() {
 
   const [Fields, setFields] = useState(formFields)
+  const [newField, setNewField] = useState("")
+
+  const handleNewFieldChange = (e:any)=>{
+    e.preventDefault()
+    setNewField(e.target.value)
+  }
+
+  const addField = ()=>{
+    setFields([
+      ...Fields,
+      {
+        id: Number(new Date()),
+        label: newField,
+        type: "text",
+        value:""
+      },
+    ])
+  }
+
+  const removeField = (id:number)=>{
+    setFields(Fields.filter((field)=> field.id !== id))
+  }
 
   const handleChange = (e:any)=>{
     e.preventDefault()
@@ -35,6 +57,8 @@ function App() {
       return field
     }))
 
+    setNewField("")
+
   }
 
   return (
@@ -46,10 +70,11 @@ function App() {
         <div className="ml-12 mt-5 mb-5">
 
           {Fields.map((field)=>(
-            <FormField key={field.id} label={field.label} type={field.type} handleChangeCB={handleChange} value={field.value} id={field.id.toString()}/>
+            <FormField key={field.id} label={field.label} type={field.type} handleChangeCB={handleChange} value={field.value} id={field.id.toString()} handleClickCB={()=>removeField(field.id)}/>
           ))}
 
-        </div>
+          <FormField label="Add Field" type="text" handleChangeCB={handleNewFieldChange} value={newField} id={String(new Date())} handleClickCB={addField}/>
+        </div> 
         
         <div className="flex space-x-2 justify-center">
           <button 
