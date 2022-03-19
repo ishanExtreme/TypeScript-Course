@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import AppContainer from "./AppContainer";
 import Form from "./Form";
+import PrevForm from "./PrevForm";
 
 
 interface formData {
@@ -28,6 +29,7 @@ export default function ListForm(props:{homeButtonCB:()=>void}) {
 
     const [formList, setFormList] = useState<formData[]>([])
     const [currForm, setCurrForm] = useState<formData>()
+    const [prevOn, setPrevOn] = useState<boolean>(false)
 
     const getLocalForms: ()=>formData[] = ()=>{
       const savedFormsJSON = localStorage.getItem("savedForms")
@@ -66,12 +68,13 @@ export default function ListForm(props:{homeButtonCB:()=>void}) {
     },[])
 
     const loadForm = (id:number)=>{
-
+        setPrevOn(false)
         const currentForm = formList.filter((form)=> form.id === id)[0]
         setCurrForm(currentForm)
     }
 
     const closeForm = ()=>{
+        setPrevOn(false)
         setCurrForm(undefined)
         setFormList(getLocalForms())
     }
@@ -81,11 +84,19 @@ export default function ListForm(props:{homeButtonCB:()=>void}) {
         setFormList(updatedFormList)
         saveLocalForms(updatedFormList)
     }
-            
+    
+    const prevForm = (id:number)=>{
+        setPrevOn(true)
+        const currentForm = formList.filter((form)=> form.id === id)[0]
+        setCurrForm(currentForm)
+    }
 
     return (
         <>
-        {currForm?<Form closeFormCB={closeForm} id={currForm.id} saveFormDataCB={saveFormData}/>
+        {currForm?
+            prevOn?<PrevForm closeFormCB={closeForm} id={currForm.id}/>
+            :
+            <Form closeFormCB={closeForm} id={currForm.id} saveFormDataCB={saveFormData}/>
             :
                 <AppContainer>
                     <div className="p-4 mx-auto bg-white shadow-lg rounded-xl min-w-[50%] text-center">
@@ -102,7 +113,7 @@ export default function ListForm(props:{homeButtonCB:()=>void}) {
                                         </p>
 
                                         <div className="grid ml-2 gap-1 grid-cols-3">
-                                            <button type="button" className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
+                                            <button onClick={()=>prevForm(form.id)} type="button" className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
                                                 <img src="./images/icons/prev.png"/>
                                             </button>
 

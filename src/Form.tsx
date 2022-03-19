@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect} from 'react';
 import AppContainer from './AppContainer';
 import FormField from './FormField';
 import Header from './Header';
@@ -17,13 +17,6 @@ interface formField{
     value: string;
 }
 
-const formFields = [
-    {id:1, label: "First Name", type: "text", value:""},
-    {id:2, label: "Last Name", type: "text", value:""},
-    {id:3, label: "Email", type: "email", value:""},
-    {id:4, label: "Phone Number", type: "tel", value:""},
-    {id:5, label: "Date of Birth", type: "date", value:""},
-]
 
 export default function Form(props:{closeFormCB:()=>void, id:number, saveFormDataCB:(currentForm: formData)=>void}){
 
