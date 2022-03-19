@@ -5,10 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Home from './Home';
 import Form from './Form';
+import ListForm from './ListForms';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ListForm />
   </React.StrictMode>,
   document.getElementById('root')
 );
