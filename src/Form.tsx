@@ -1,15 +1,20 @@
 import React from "react";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import AppContainer from './AppContainer';
 import FormField from './FormField';
 import Header from './Header';
 
+interface formData {
+  id: number;
+  title: string;
+  formFields: formField[];
+}
 
 interface formField{
-    id: number,
-    label: string,
-    type: string,
-    value: string
+    id: number;
+    label: string;
+    type: string;
+    value: string;
 }
 
 const formFields = [
@@ -22,16 +27,49 @@ const formFields = [
 
 export default function Form(props:{closeFormCB:()=>void}){
 
-    const [newField, setNewField] = useState("")
+  const [newField, setNewField] = useState("")
 
-    const initialStage : ()=>formField[] = ()=>{
-        const formFieldsJSON = localStorage.getItem("formFields")
-        const persistantFormFields = formFieldsJSON ? JSON.parse(formFieldsJSON) : formFields
+  const getLocalForm: ()=>formData[] = ()=>{
+    const savedFormsJSON = localStorage.getItem("savedForms")
+    return savedFormsJSON 
+    ? JSON.parse(savedFormsJSON) 
+    : []
+
+  }
+
+    const initialStage : ()=>formData = ()=>{
+        const localForms = getLocalForm()
         
-        return persistantFormFields
+        if(localForms.length > 0)
+        {
+          return localForms[0]
+        }
+        const newForm = {
+          id: Number(new Date()),
+          title: "Untitled",
+          formFields
+        }
+        saveLocalForms([...localForms, newForm])
+        
+        return newForm
     }
 
-    const [fields, setFields] = useState(initialStage())
+    const saveLocalForms = (localForms: formData[])=>{
+      localStorage.setItem("savedForms", JSON.stringify(localForms))
+    }
+
+    const saveFormData = (currentForm: formData)=>{
+      const localForms = getLocalForm();
+      const updatedLocalForms = localForms.map((form)=>
+        form.id === currentForm.id ? currentForm : form
+      )
+
+      saveLocalForms(updatedLocalForms)
+    }
+
+    // Using arrow function prevents calling intial stage function again and again
+    // on re render
+    const [fields, setFields] = useState(()=>initialStage())
 
     useEffect(()=>{
         /* 
@@ -40,11 +78,11 @@ export default function Form(props:{closeFormCB:()=>void}){
         */ 
 
         const oldTitle = document.title;
-        document.title = "Form Editor"
+        document.title = "Form Editor";
 
         return ()=>{
-            document.title = oldTitle
-        }
+            document.title = oldTitle;
+        };
     },[])
 
     useEffect(()=>{
@@ -60,50 +98,67 @@ export default function Form(props:{closeFormCB:()=>void}){
         }
         
     }, [fields])
-
-    const saveFormData = (currentForm: formField[])=>{
-        localStorage.setItem("formFields", JSON.stringify(currentForm))
+  
+    const addField = ()=>{
+      setFields({
+        ...fields,
+        formFields: [
+          ...fields.formFields,
+          {
+            id: Number(new Date()),
+            label: newField,
+            type: "text",
+            value:""
+          },
+        ]
+      })
     }
   
+    const removeField = (id:number)=>{
+      setFields({
+        ...fields,
+        formFields: fields.formFields.filter((field)=> field.id !== id)
+      })
+    }
+
+    const handleFormTitleChange = (e:any)=>{
+      e.preventDefault()
+      setFields({
+        ...fields,
+        title: e.target.value
+      })
+
+    }
+  
+    const handleChange = (e:any)=>{
+        e.preventDefault()
+        setFields({
+          ...fields,
+          formFields: fields.formFields.map((field)=>{
+            if(e.target.id === field.id.toString())
+              field.value = e.target.value
+            return field
+        })
+      })
+    }
+
     const handleNewFieldChange = (e:any)=>{
       e.preventDefault()
       setNewField(e.target.value)
     }
-  
-    const addField = ()=>{
-      setFields([
-        ...fields,
-        {
-          id: Number(new Date()),
-          label: newField,
-          type: "text",
-          value:""
-        },
-      ])
-    }
-  
-    const removeField = (id:number)=>{
-      setFields(fields.filter((field)=> field.id !== id))
-    }
-  
-    const handleChange = (e:any)=>{
-      e.preventDefault()
-      console.log(e.target.id)
-      console.log(e.target.value)
-      setFields(fields.map((field)=>{
-        if(e.target.id === field.id.toString())
-          field.value = e.target.value
-        return field
-      }))
-    }
+
+
   
     const clearCB = ()=>{
   
-      setFields(fields.map((field)=>{
-        field.value = ""
-        return field
-      }))
-  
+      setFields({
+        ...fields,
+        formFields: fields.formFields.map((field)=>{
+          field.value = ""
+          return field
+        }) 
+      })
+
       setNewField("")
   
     }
@@ -115,12 +170,14 @@ export default function Form(props:{closeFormCB:()=>void}){
             <Header title="Welcome to #react-typescript with #tailwindcss "/>
     
             <div className="ml-12 mt-5 mb-5">
+
+              <FormField label="Form Title" type="text" handleChangeCB={handleFormTitleChange} value={fields.title} id={String(new Date())} focus={true}/>
     
-              {fields.map((field)=>(
-                <FormField key={field.id} label={field.label} type={field.type} handleChangeCB={handleChange} value={field.value} id={field.id.toString()} handleClickCB={()=>removeField(field.id)}/>
+              {fields.formFields.map((field)=>(
+                <FormField key={field.id} label={field.label} type={field.type} handleChangeCB={handleChange} value={field.value} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>
               ))}
     
-              <FormField label="Add Field" type="text" handleChangeCB={handleNewFieldChange} value={newField} id={String(new Date())} handleClickCB={addField}/>
+              <FormField label="Add Field" type="text" handleChangeCB={handleNewFieldChange} value={newField} id={String(new Date())} handleClickCB={addField} focus={false}/>
             </div> 
             
             <div className="flex space-x-2 justify-center">
