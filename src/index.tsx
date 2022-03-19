@@ -9,7 +9,7 @@ import ListForm from './ListForms';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ListForm />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

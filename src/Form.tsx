@@ -25,7 +25,7 @@ const formFields = [
     {id:5, label: "Date of Birth", type: "date", value:""},
 ]
 
-export default function Form(props:{closeFormCB:()=>void}){
+export default function Form(props:{closeFormCB:()=>void, id:number, saveFormDataCB:(currentForm: formData)=>void}){
 
   const [newField, setNewField] = useState("")
 
@@ -40,32 +40,10 @@ export default function Form(props:{closeFormCB:()=>void}){
     const initialStage : ()=>formData = ()=>{
         const localForms = getLocalForm()
         
-        if(localForms.length > 0)
-        {
-          return localForms[0]
-        }
-        const newForm = {
-          id: Number(new Date()),
-          title: "Untitled",
-          formFields
-        }
-        saveLocalForms([...localForms, newForm])
-        
-        return newForm
+        return localForms.filter((form)=> props.id === form.id)[0]
     }
 
-    const saveLocalForms = (localForms: formData[])=>{
-      localStorage.setItem("savedForms", JSON.stringify(localForms))
-    }
 
-    const saveFormData = (currentForm: formData)=>{
-      const localForms = getLocalForm();
-      const updatedLocalForms = localForms.map((form)=>
-        form.id === currentForm.id ? currentForm : form
-      )
-
-      saveLocalForms(updatedLocalForms)
-    }
 
     // Using arrow function prevents calling intial stage function again and again
     // on re render
@@ -90,7 +68,7 @@ export default function Form(props:{closeFormCB:()=>void}){
         Saving form data automatically after one second when user stops typing 
         */ 
         let timeout = setTimeout(()=>{
-          saveFormData(fields)
+          props.saveFormDataCB(fields)
         }, 1000)
 
         return ()=>{

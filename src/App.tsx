@@ -3,6 +3,7 @@ import { useState } from 'react';
 import 'tw-elements';
 import Form from './Form';
 import Home from './Home';
+import ListForm from './ListForms';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
 
   return (
     <>
-      {openForm?<Form closeFormCB={toogleForm}/>:<Home openFormCB={toogleForm}/>}
+      {openForm?<ListForm homeButtonCB={toogleForm}/>:<Home openFormCB={toogleForm}/>}
     </>
   );
 }
