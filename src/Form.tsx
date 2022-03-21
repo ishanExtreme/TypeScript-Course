@@ -121,7 +121,7 @@ export default function Form(props:{id:number}){
           ...fields,
           formFields: fields.formFields.map((field)=>{
             if(e.target.id === field.id.toString())
-              field.value = e.target.value
+              field.label = e.target.value
             return field
         })
       })
@@ -139,7 +139,7 @@ export default function Form(props:{id:number}){
       setFields({
         ...fields,
         formFields: fields.formFields.map((field)=>{
-          field.value = ""
+          field.label = ""
           return field
         }) 
       })
@@ -159,7 +159,7 @@ export default function Form(props:{id:number}){
               <FormField label="Form Title" type="text" handleChangeCB={handleFormTitleChange} value={fields.title} id={String(new Date())} focus={true}/>
     
               {fields.formFields.map((field)=>(
-                <FormField key={field.id} label={field.label} type={field.type} handleChangeCB={handleChange} value={field.value} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>
+                <FormField key={field.id} label={field.label} type="text" handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>
               ))}
     
               <FormField label="Add Field" type="text" handleChangeCB={handleNewFieldChange} value={newField} id={String(new Date())} handleClickCB={addField} focus={false}/>
