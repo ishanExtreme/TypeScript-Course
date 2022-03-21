@@ -5,12 +5,12 @@ import FormField from "./FormField";
 import {formData, formField} from '../types/form'
 
 
-const formFields = [
-    {id:1, label: "First Name", type: "text", value:""},
-    {id:2, label: "Last Name", type: "text", value:""},
-    {id:3, label: "Email", type: "email", value:""},
-    {id:4, label: "Phone Number", type: "tel", value:""},
-    {id:5, label: "Date of Birth", type: "date", value:""},
+const formFields: formField[] = [
+    {kind:"text", id:1, label: "First Name", type: "text", value:""},
+    {kind:"text", id:2, label: "Last Name", type: "text", value:""},
+    {kind:"text", id:3, label: "Email", type: "email", value:""},
+    {kind:"text", id:4, label: "Phone Number", type: "tel", value:""},
+    {kind:"text", id:5, label: "Date of Birth", type: "date", value:""},
 ]
 
 export default function ListForm() {

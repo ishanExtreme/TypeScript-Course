@@ -29,18 +29,31 @@ export default function FormPreview(props:{id:number}) {
     // next and submit
     const [buttonState, setButtonState] = useState<string>("next")
     const [currFieldIndex, setCurrFieldIndex] = useState<number>(0)
+    const [type, setType] = useState<string>("")
+
+    const setTypeUtil:(field:formField)=>void = (field)=>{
+
+        if(field.kind === "text")
+            setType(field.type)
+    }
 
     const nextField = ()=>{
         // check if this is the last field
         if(currFieldIndex+2 >= form.length)
         {
         // if last field display submit
+            const ind = currFieldIndex+1
             setButtonState("submit")
-            setCurrFieldIndex(currFieldIndex+1)
+            setCurrFieldIndex(ind)
+            setTypeUtil(form[ind])
         }
         else
+        {
         // else increase counter
-            setCurrFieldIndex(currFieldIndex+1)
+            const ind = currFieldIndex+1
+            setCurrFieldIndex(ind)
+            setTypeUtil(form[ind])
+        }
     }
 
     const prevField = ()=>{
@@ -87,8 +100,11 @@ export default function FormPreview(props:{id:number}) {
     
             <div className="mt-5 mb-5">
 
-              <FormField label={form[currFieldIndex].label} type={form[currFieldIndex].type} handleChangeCB={handleChange} value={form[currFieldIndex].value} id={form[currFieldIndex].id.toString()} focus={true}/>
-    
+                {form[currFieldIndex].kind === "text"?
+                <FormField label={form[currFieldIndex].label} type={type} handleChangeCB={handleChange} value={form[currFieldIndex].value} id={form[currFieldIndex].id.toString()} focus={true}/>
+                :
+                <div>Dropdown</div>
+                }
             </div> 
             
             <div className="flex space-x-2 justify-center">

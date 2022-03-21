@@ -77,6 +77,7 @@ export default function Form(props:{id:number}){
         formFields: [
           ...fields.formFields,
           {
+            kind:"text",
             id: Number(new Date()),
             label: newField,
             type: "text",
@@ -146,7 +147,10 @@ export default function Form(props:{id:number}){
               <FormField label="Form Title" type="text" handleChangeCB={handleFormTitleChange} value={fields.title} id={String(new Date())} focus={true}/>
     
               {fields.formFields.map((field)=>(
-                <FormField key={field.id} label={field.label} type="text" handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>
+                field.kind === "text"?
+                (<FormField key={field.id} label={field.label} type={field.type} handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>)
+                :
+                (<div>dropdown</div>)
               ))}
     
               <FormField label="Add Field" type="text" handleChangeCB={handleNewFieldChange} value={newField} id={String(new Date())} handleClickCB={addField} focus={false}/>
