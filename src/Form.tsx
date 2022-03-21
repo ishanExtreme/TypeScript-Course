@@ -150,11 +150,11 @@ export default function Form(props:{id:number}){
 
     return (
         <AppContainer>
-          <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
+          <div className="p-4 mx-auto max-h-full bg-white shadow-lg rounded-xl overflow-auto">
     
             <Header title="Welcome to #react-typescript with #tailwindcss "/>
     
-            <div className="ml-12 mt-5 mb-5">
+            <div className="ml-3 mt-5 mb-5">
 
               <FormField label="Form Title" type="text" handleChangeCB={handleFormTitleChange} value={fields.title} id={String(new Date())} focus={true}/>
     
