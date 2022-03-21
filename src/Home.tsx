@@ -1,7 +1,8 @@
 import React from "react";
 import AppContainer from "./AppContainer";
+import {Link} from 'raviger'
 
-export default function Home(props:{openFormCB:()=>void}) {
+export default function Home() {
 
     return (
         <AppContainer>
@@ -18,9 +19,9 @@ export default function Home(props:{openFormCB:()=>void}) {
                     Create your own custom form and share it with others to get insight easily with visuals in graphs.
                 </p>
                 <div className="flex justify-center">
-                    <button onClick={props.openFormCB} type="button" className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    <Link href="/list" className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                         Open Form
-                    </button>
+                    </Link>
                 </div>
                 </div>
             </div>

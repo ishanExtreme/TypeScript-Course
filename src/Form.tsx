@@ -3,6 +3,7 @@ import { useState, useEffect} from 'react';
 import AppContainer from './AppContainer';
 import FormField from './FormField';
 import Header from './Header';
+import {Link} from 'raviger'
 
 interface formData {
   id: number;
@@ -18,7 +19,7 @@ interface formField{
 }
 
 
-export default function Form(props:{closeFormCB:()=>void, id:number, saveFormDataCB:(currentForm: formData)=>void}){
+export default function Form(props:{id:number}){
 
   const [newField, setNewField] = useState("")
 
@@ -28,6 +29,19 @@ export default function Form(props:{closeFormCB:()=>void, id:number, saveFormDat
     ? JSON.parse(savedFormsJSON) 
     : []
 
+  }
+
+  const saveLocalForms = (localForms: formData[])=>{
+    localStorage.setItem("savedForms", JSON.stringify(localForms))
+  } 
+
+  const saveFormData = (currentForm: formData)=>{
+    const localForms = getLocalForm();
+    const updatedLocalForms = localForms.map((form)=>
+      form.id === currentForm.id ? currentForm : form
+    )
+
+    saveLocalForms(updatedLocalForms)
   }
 
     const initialStage : ()=>formData = ()=>{
@@ -61,7 +75,7 @@ export default function Form(props:{closeFormCB:()=>void, id:number, saveFormDat
         Saving form data automatically after one second when user stops typing 
         */ 
         let timeout = setTimeout(()=>{
-          props.saveFormDataCB(fields)
+          saveFormData(fields)
         }, 1000)
 
         return ()=>{
@@ -166,12 +180,12 @@ export default function Form(props:{closeFormCB:()=>void, id:number, saveFormDat
             </div>
 
             <div className="flex space-x-2 justify-center mt-5">
-              <button 
-              onClick={props.closeFormCB}
+              <Link 
+              href="/list"
               type="button" 
               className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
                 Close Form
-              </button>
+              </Link>
             </div>
     
           </div>
