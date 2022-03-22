@@ -7,6 +7,7 @@ import {formData, formField} from '../types/form'
 import DropDownField from "./DropDownField";
 import TextAreaField from "./TextAreaField";
 import RadioButtonField from './RadioButtonField'
+import MultiSelectField from './MultiSelectField'
 
 let curr_form_data:formData
 
@@ -104,6 +105,31 @@ export default function FormPreview(props:{id:number}) {
 
     }
 
+    const handleMultiSelectClick: (option:string, add:boolean, id:number)=>void = 
+    (option, add, id)=>{
+
+        if(add)
+        {
+            setForm(
+                form.map((field)=>{
+                  if(id === field.id && field.kind === "multiselect")
+                    field.value.push(option)
+                  return field
+                })
+            )
+        }
+        else
+        {
+            setForm(
+                form.map((field)=>{
+                  if(id === field.id && field.kind === "multiselect")
+                    field.value = field.value.filter((value)=> value !== option)
+                  return field
+                })
+            )
+        }
+    } 
+
     const renderField = (field:formField)=>{
         switch(field.kind)
         {
@@ -121,6 +147,10 @@ export default function FormPreview(props:{id:number}) {
             
             case "radio":
                 return (<RadioButtonField id={field.id} options={field.options} handleSelectCB={handleOptionSelect}/>)
+            
+            case "multiselect":
+                return (<MultiSelectField id={field.id} options={field.options} handleSelectCB={handleMultiSelectClick}/>)
+            
             default:
                 return (<div>None</div>)
         }

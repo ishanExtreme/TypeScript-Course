@@ -7,11 +7,10 @@ import {Link} from 'raviger'
 import {formData, formField} from '../types/form'
 import DropDownEditView from "./DropDownEditView";
 import DropDownField from "./DropDownField"
-import TextAreaField from "./TextAreaField"
 import RadioEditView from "./RadioEditView";
 import MultiSelectEditView from "./MultiSelectEditView";
 
-const fieldTypeOptions = ["text", "email", "date", "tel", "date", "dropdown", "textArea", "radio", "multiselect"]
+const fieldTypeOptions = ["text", "email", "date", "tel", "dropdown", "textArea", "radio", "multiselect"]
 
 let fieldType:string
 

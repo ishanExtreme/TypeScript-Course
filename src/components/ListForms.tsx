@@ -84,9 +84,9 @@ export default function ListForm() {
                 filter((form)=>
                     form.title.toLowerCase().includes(search?.toLocaleLowerCase() || "")
                     )
-                    .map((form)=>{
+                    .map((form, index)=>{
                     return (
-                            <div className="flex flex-row justify-center mb-3">         
+                            <div key={index} className="flex flex-row justify-center mb-3">         
                                 <p className="text-sky-500 text-center decoration-solid text-2xl mb-4 mr-2">
                                     {form.title}
                                 </p>
