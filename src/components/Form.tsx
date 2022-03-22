@@ -4,7 +4,13 @@ import AppContainer from './AppContainer';
 import FormField from './FormField';
 import Header from './Header';
 import {Link} from 'raviger'
-import {formData, formField} from '../types/form'
+import {formData, formField, textFieldType} from '../types/form'
+import DropDownEditView from "./DropDownEditView";
+import DropDownField from "./DropDownField"
+
+const fieldTypeOptions = ["text", "email", "date", "tel", "date", "dropdown"]
+
+let fieldType:string
 
 export default function Form(props:{id:number}){
 
@@ -72,17 +78,32 @@ export default function Form(props:{id:number}){
     }, [fields])
   
     const addField = ()=>{
+      let newFieldObj:formField
+      if(fieldType !== "dropdown")
+      {
+        newFieldObj = {
+            kind:"text",
+            id: Number(new Date()),
+            label: newField,
+            type: fieldType,
+            value:""
+        }
+      }
+      else
+      {
+        newFieldObj = {
+          kind:"dropdown",
+          id: Number(new Date()),
+          label: newField,
+          value:"",
+          options: []
+        }
+      }
       setFields({
         ...fields,
         formFields: [
           ...fields.formFields,
-          {
-            kind:"text",
-            id: Number(new Date()),
-            label: newField,
-            type: "text",
-            value:""
-          },
+          newFieldObj,
         ]
       })
     }
@@ -104,7 +125,7 @@ export default function Form(props:{id:number}){
     }
   
     const handleChange = (e:any)=>{
-        e.preventDefault()
+      e.preventDefault()
         setFields({
           ...fields,
           formFields: fields.formFields.map((field)=>{
@@ -115,9 +136,24 @@ export default function Form(props:{id:number}){
       })
     }
 
+    const handleAddOption = (option:string, id:string)=>{
+        setFields({
+          ...fields,
+          formFields: fields.formFields.map((field)=>{
+            if(id === field.id.toString() && field.kind === "dropdown")
+              field.options.push(option)
+            return field
+        })
+      })
+    }
+
     const handleNewFieldChange = (e:any)=>{
       e.preventDefault()
       setNewField(e.target.value)
+    }
+
+    const handleTypeSelect = (option:string)=>{
+      fieldType = option
     }
 
 
@@ -138,22 +174,26 @@ export default function Form(props:{id:number}){
 
     return (
         <AppContainer>
-          <div className="p-4 mx-auto max-h-full bg-white shadow-lg rounded-xl overflow-auto">
+          <div className="p-4 px-10 mx-auto max-h-full bg-white shadow-lg rounded-xl overflow-auto">
     
             <Header title="Welcome to #react-typescript with #tailwindcss "/>
     
-            <div className="ml-3 mt-5 mb-5">
+            <div className="flex flex-col items-center mt-5 mb-5">
 
               <FormField label="Form Title" type="text" handleChangeCB={handleFormTitleChange} value={fields.title} id={String(new Date())} focus={true}/>
     
               {fields.formFields.map((field)=>(
                 field.kind === "text"?
-                (<FormField key={field.id} label={field.label} type={field.type} handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>)
+                (<FormField key={field.id} label={field.label} type="text" handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>)
                 :
-                (<div>dropdown</div>)
+                (<DropDownEditView key={field.id} label={field.label} id={field.id.toString()} handleChangeCB={handleChange} value={field.label} options={field.options} handleAddOptionCB={handleAddOption} handleClickCB={()=>removeField(field.id)}/>)
               ))}
-    
-              <FormField label="Add Field" type="text" handleChangeCB={handleNewFieldChange} value={newField} id={String(new Date())} handleClickCB={addField} focus={false}/>
+
+              <div className="flex flex-col border-2 border-green-600 w-[30rem] p-5 justify-center items-center gap-y-2">
+                {/* Select type dropdown */}
+                <DropDownField label="Choose Type" options={fieldTypeOptions} handleSelectCB={handleTypeSelect}/>
+                <FormField label="Add Field" type="text" handleChangeCB={handleNewFieldChange} value={newField} id={String(new Date())} handleClickCB={addField} focus={false}/>
+              </div>
             </div> 
             
             <div className="flex space-x-2 justify-center">

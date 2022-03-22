@@ -4,13 +4,13 @@ export interface formData {
     formFields: formField[];
 }
 
-type textFieldType = "text" | "email" | "date" | "tel";
+export type textFieldType = "text" | "email" | "date" | "tel";
 
 type textField = {
     kind: "text",
     id: number;
     label: string;
-    type: textFieldType;
+    type: string;
     value: string;
 }
 
