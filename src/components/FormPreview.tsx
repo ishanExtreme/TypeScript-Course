@@ -4,7 +4,9 @@ import FormField from "./FormField";
 import Header from "./Header";
 import {navigate} from 'raviger'
 import {formData, formField} from '../types/form'
-
+import DropDownField from "./DropDownField";
+import TextAreaField from "./TextAreaField";
+import RadioButtonField from './RadioButtonField'
 
 let curr_form_data:formData
 
@@ -80,7 +82,6 @@ export default function FormPreview(props:{id:number}) {
     }
 
     const handleChange = (e:any)=>{
-        console.log(e.target.value)
         e.preventDefault()
         setForm(
           form.map((field)=>{
@@ -91,6 +92,40 @@ export default function FormPreview(props:{id:number}) {
       )
     }
 
+    const handleOptionSelect = (option:string, id:number)=>{
+
+        setForm(
+            form.map((field)=>{
+              if(id === field.id)
+                field.value = option
+              return field
+            })
+        )
+
+    }
+
+    const renderField = (field:formField)=>{
+        switch(field.kind)
+        {
+            case "text":
+                return (<FormField label={field.label} type={field.type} handleChangeCB={handleChange} value={field.value} id={field.id.toString()} focus={true}/>)
+            
+            case "dropdown":
+                return (
+                <div className="flex justify-center">
+                    <DropDownField label={field.value?field.value:field.label} options={field.options} handleSelectCB={handleOptionSelect} id={field.id} />
+                </div>
+                )
+            case "textArea":
+                return (<TextAreaField label={field.label} handleChangeCB={handleChange} id={field.id.toString()} value={field.value}  />)
+            
+            case "radio":
+                return (<RadioButtonField id={field.id} options={field.options} handleSelectCB={handleOptionSelect}/>)
+            default:
+                return (<div>None</div>)
+        }
+    }
+
     return (
         
         <AppContainer>
@@ -99,12 +134,8 @@ export default function FormPreview(props:{id:number}) {
             <Header title={curr_form_data.title}/>
     
             <div className="mt-5 mb-5">
-
-                {form[currFieldIndex].kind === "text"?
-                <FormField label={form[currFieldIndex].label} type={type} handleChangeCB={handleChange} value={form[currFieldIndex].value} id={form[currFieldIndex].id.toString()} focus={true}/>
-                :
-                <div>Dropdown</div>
-                }
+                {renderField(form[currFieldIndex])}
+                
             </div> 
             
             <div className="flex space-x-2 justify-center">

@@ -4,7 +4,6 @@ export interface formData {
     formFields: formField[];
 }
 
-export type textFieldType = "text" | "email" | "date" | "tel";
 
 type textField = {
     kind: "text",
@@ -22,7 +21,23 @@ type dropDownField = {
     value: string;
 }
 
+type textArea = {
+    kind: "textArea",
+    id: number;
+    label: string;
+    value: string;
+}
+
+type radioButton = {
+    kind: "radio",
+    id: number,
+    // had to add bcz of typescript error checking
+    label: string,
+    value: string,
+    options: string[]
+}
 
 
-export type formField = textField | dropDownField
+
+export type formField = textField | dropDownField | textArea | radioButton
    

@@ -4,11 +4,13 @@ import AppContainer from './AppContainer';
 import FormField from './FormField';
 import Header from './Header';
 import {Link} from 'raviger'
-import {formData, formField, textFieldType} from '../types/form'
+import {formData, formField} from '../types/form'
 import DropDownEditView from "./DropDownEditView";
 import DropDownField from "./DropDownField"
+import TextAreaField from "./TextAreaField"
+import RadioEditView from "./RadioEditView";
 
-const fieldTypeOptions = ["text", "email", "date", "tel", "date", "dropdown"]
+const fieldTypeOptions = ["text", "email", "date", "tel", "date", "dropdown", "textArea", "radio"]
 
 let fieldType:string
 
@@ -79,17 +81,8 @@ export default function Form(props:{id:number}){
   
     const addField = ()=>{
       let newFieldObj:formField
-      if(fieldType !== "dropdown")
-      {
-        newFieldObj = {
-            kind:"text",
-            id: Number(new Date()),
-            label: newField,
-            type: fieldType,
-            value:""
-        }
-      }
-      else
+    
+      if(fieldType === "dropdown")
       {
         newFieldObj = {
           kind:"dropdown",
@@ -99,6 +92,37 @@ export default function Form(props:{id:number}){
           options: []
         }
       }
+      else if(fieldType === "textArea")
+      {
+        newFieldObj = {
+          kind:"textArea",
+          id: Number(new Date()),
+          label: newField,
+          value:"",
+        }
+      }
+      else if(fieldType === "radio")
+      {
+        newFieldObj = {
+          kind:"radio",
+          id: Number(new Date()),
+          label: newField,
+          value:"",
+          options:[]
+        }
+      }
+      else
+      {
+        newFieldObj = {
+            kind:"text",
+            id: Number(new Date()),
+            label: newField,
+            type: fieldType,
+            value:""
+        }
+      }
+
+
       setFields({
         ...fields,
         formFields: [
@@ -140,7 +164,9 @@ export default function Form(props:{id:number}){
         setFields({
           ...fields,
           formFields: fields.formFields.map((field)=>{
-            if(id === field.id.toString() && field.kind === "dropdown")
+            if(id === field.id.toString() && 
+            (field.kind === "dropdown" || field.kind === "radio")
+            )
               field.options.push(option)
             return field
         })
@@ -172,6 +198,25 @@ export default function Form(props:{id:number}){
   
     }
 
+    const renderField = (field:formField)=>{
+      switch(field.kind)
+      {
+        case "text":
+          return (<FormField key={field.id} label={field.label} type="text" handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>)
+        
+        case "dropdown":
+          return (<DropDownEditView key={field.id} label={field.label} id={field.id.toString()} handleChangeCB={handleChange} value={field.label} options={field.options} handleAddOptionCB={handleAddOption} handleClickCB={()=>removeField(field.id)}/>)
+        
+        case "textArea":
+          return (<FormField key={field.id} label={field.label} type="text" handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>)
+        
+        case "radio":
+          return (<RadioEditView key={field.id} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} options={field.options} value={field.value} handleAddOptionCB={handleAddOption}/>)
+        default:
+          return (<div>None</div>)
+      }
+    }
+
     return (
         <AppContainer>
           <div className="p-4 px-10 mx-auto max-h-full bg-white shadow-lg rounded-xl overflow-auto">
@@ -183,10 +228,7 @@ export default function Form(props:{id:number}){
               <FormField label="Form Title" type="text" handleChangeCB={handleFormTitleChange} value={fields.title} id={String(new Date())} focus={true}/>
     
               {fields.formFields.map((field)=>(
-                field.kind === "text"?
-                (<FormField key={field.id} label={field.label} type="text" handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>)
-                :
-                (<DropDownEditView key={field.id} label={field.label} id={field.id.toString()} handleChangeCB={handleChange} value={field.label} options={field.options} handleAddOptionCB={handleAddOption} handleClickCB={()=>removeField(field.id)}/>)
+                renderField(field)
               ))}
 
               <div className="flex flex-col border-2 border-green-600 w-[30rem] p-5 justify-center items-center gap-y-2">

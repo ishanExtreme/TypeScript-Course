@@ -1,6 +1,15 @@
 import React, { useRef, useEffect } from "react";
 
-export default function FormField(props:{label:string, type:string, handleChangeCB:(e:any)=>void, value:string, id:string, handleClickCB?:()=>void, focus:boolean}){
+export default function FormField(
+    props:{
+        label:string, 
+        type:string, 
+        handleChangeCB:(e:any)=>void, 
+        value:string, 
+        id:string, 
+        handleClickCB?:()=>void, 
+        focus:boolean
+    }){
     
     const inputRef = useRef<HTMLInputElement>(null)
 

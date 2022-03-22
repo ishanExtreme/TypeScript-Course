@@ -4,7 +4,8 @@ export default function DropDownField(
     props:{
         label: string,
         options: string[],
-        handleSelectCB: (option:string)=>void
+        id?:number,
+        handleSelectCB: (option:string, id:number)=>void
     }
 ) {
 
@@ -12,7 +13,7 @@ export default function DropDownField(
 
     const handleSelectUtil:(option:string)=>void = (option)=>{
         setLabel(option)
-        props.handleSelectCB(option)
+        props.handleSelectCB(option, props.id?props.id:1)
     }
 
     return (
@@ -44,7 +45,7 @@ export default function DropDownField(
         </svg>
       </button>
       <ul
-        className="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
+        className="dropdown-menu min-w-max max-h-[10rem] absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none overflow-auto"
         aria-labelledby="dropdownMenuButton1"
       >
         {props.options.map((option)=>(
