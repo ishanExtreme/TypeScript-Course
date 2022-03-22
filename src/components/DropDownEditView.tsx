@@ -63,7 +63,7 @@ export default function DropDownEditView (
                     </svg>
                 </button>
                 <ul
-                    className="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
+                    className="dropdown-menu min-w-max absolute bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
                     aria-labelledby="dropdownMenuButton1e"
                 >
                     {props.options.map((option)=>(

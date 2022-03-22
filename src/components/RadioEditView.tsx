@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 export default function RadioEditView (
     props:{
-        value:string,
         handleClickCB:()=>void,
         id:string, 
         options:string[],

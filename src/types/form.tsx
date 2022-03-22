@@ -37,7 +37,15 @@ type radioButton = {
     options: string[]
 }
 
+type multiSelect = {
+    kind: "multiselect",
+    id: number,
+    label: string,
+    value: string[],
+    options: string[]
+}
 
 
-export type formField = textField | dropDownField | textArea | radioButton
+
+export type formField = textField | dropDownField | textArea | radioButton | multiSelect
    

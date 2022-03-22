@@ -10,7 +10,7 @@ const formFields: formField[] = [
     {kind:"text", id:2, label: "Last Name", type: "text", value:""},
     {kind:"text", id:3, label: "Email", type: "email", value:""},
     {kind:"text", id:4, label: "Phone Number", type: "tel", value:""},
-    {kind:"dropdown", id:5, label: "Date of Birth", value:"", options:[]},
+    {kind:"text", id:5, label: "Date of Birth", type: "date", value:""},
 ]
 
 export default function ListForm() {

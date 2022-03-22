@@ -9,8 +9,9 @@ import DropDownEditView from "./DropDownEditView";
 import DropDownField from "./DropDownField"
 import TextAreaField from "./TextAreaField"
 import RadioEditView from "./RadioEditView";
+import MultiSelectEditView from "./MultiSelectEditView";
 
-const fieldTypeOptions = ["text", "email", "date", "tel", "date", "dropdown", "textArea", "radio"]
+const fieldTypeOptions = ["text", "email", "date", "tel", "date", "dropdown", "textArea", "radio", "multiselect"]
 
 let fieldType:string
 
@@ -111,6 +112,16 @@ export default function Form(props:{id:number}){
           options:[]
         }
       }
+      else if(fieldType === "multiselect")
+      {
+        newFieldObj = {
+          kind:"multiselect",
+          id: Number(new Date()),
+          label: newField,
+          value:[],
+          options:[]
+        }
+      }
       else
       {
         newFieldObj = {
@@ -165,7 +176,8 @@ export default function Form(props:{id:number}){
           ...fields,
           formFields: fields.formFields.map((field)=>{
             if(id === field.id.toString() && 
-            (field.kind === "dropdown" || field.kind === "radio")
+            (field.kind === "dropdown" || field.kind === "radio" || 
+            field.kind === "multiselect")
             )
               field.options.push(option)
             return field
@@ -211,7 +223,10 @@ export default function Form(props:{id:number}){
           return (<FormField key={field.id} label={field.label} type="text" handleChangeCB={handleChange} value={field.label} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} focus={false}/>)
         
         case "radio":
-          return (<RadioEditView key={field.id} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} options={field.options} value={field.value} handleAddOptionCB={handleAddOption}/>)
+          return (<RadioEditView key={field.id} id={field.id.toString()} handleClickCB={()=>removeField(field.id)} options={field.options} handleAddOptionCB={handleAddOption}/>)
+        
+        case "multiselect":
+          return (<MultiSelectEditView key={field.id} id={field.id.toString()} label={field.label} handleClickCB={()=>removeField(field.id)} options={field.options} value={field.label} handleChangeCB={handleChange} handleAddOptionCB={handleAddOption}/>)  
         default:
           return (<div>None</div>)
       }

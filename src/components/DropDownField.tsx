@@ -45,7 +45,7 @@ export default function DropDownField(
         </svg>
       </button>
       <ul
-        className="dropdown-menu min-w-max max-h-[10rem] absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none overflow-auto"
+        className="dropdown-menu min-w-max max-h-[10rem] absolute bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none overflow-auto"
         aria-labelledby="dropdownMenuButton1"
       >
         {props.options.map((option)=>(
