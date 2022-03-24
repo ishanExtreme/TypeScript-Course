@@ -121,7 +121,10 @@ export default function Form(props:{id:number}){
           ...fields,
           formFields: fields.formFields.map((field)=>{
             if(e.target.id === field.id.toString())
-              field.label = e.target.value
+              return {
+                ...field,
+                label: e.target.value
+              }
             return field
         })
       })
@@ -139,8 +142,10 @@ export default function Form(props:{id:number}){
       setFields({
         ...fields,
         formFields: fields.formFields.map((field)=>{
-          field.label = ""
-          return field
+          return {
+            ...field,
+            label: ""
+          }
         }) 
       })
 

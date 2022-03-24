@@ -83,7 +83,10 @@ export default function FormPreview(props:{id:number}) {
         setForm(
           form.map((field)=>{
             if(e.target.id === field.id.toString())
-              field.value = e.target.value
+                return {
+                    ...field,
+                    value: e.target.value
+                }
             return field
           })
       )
@@ -92,44 +95,50 @@ export default function FormPreview(props:{id:number}) {
     return (
         
         <AppContainer>
-          <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
-    
-            <Header title={curr_form_data.title}/>
-    
-            <div className="mt-5 mb-5">
-
-              <FormField label={form[currFieldIndex].label} type={form[currFieldIndex].type} handleChangeCB={handleChange} value={form[currFieldIndex].value} id={form[currFieldIndex].id.toString()} focus={true}/>
-    
-            </div> 
-            
-            <div className="flex space-x-2 justify-center">
-                {currFieldIndex>0&&
-                    <button 
-                    type="submit"
-                    onClick={prevField} 
-                    className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                        Previous
-                    </button>
-                }
-                {buttonState === "next"?
-                    <button 
-                    type="submit"
-                    onClick={nextField} 
-                    className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                        Next
-                    </button>
-                :
-                    <button 
-                    type="submit"
-                    onClick={submitForm} 
-                    className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                        Submit
-                    </button>
-                }
-                
+          {form.length === 0 ? 
+             <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
+                <h1>Form is Empty</h1>
             </div>
-    
-          </div>
+            :
+            <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
+        
+                <Header title={curr_form_data.title}/>
+        
+                <div className="mt-5 mb-5">
+
+                <FormField label={form[currFieldIndex].label} type={form[currFieldIndex].type} handleChangeCB={handleChange} value={form[currFieldIndex].value} id={form[currFieldIndex].id.toString()} focus={true}/>
+        
+                </div> 
+                
+                <div className="flex space-x-2 justify-center">
+                    {currFieldIndex>0&&
+                        <button 
+                        type="submit"
+                        onClick={prevField} 
+                        className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                            Previous
+                        </button>
+                    }
+                    {buttonState === "next"?
+                        <button 
+                        type="submit"
+                        onClick={nextField} 
+                        className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                            Next
+                        </button>
+                    :
+                        <button 
+                        type="submit"
+                        onClick={submitForm} 
+                        className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                            Submit
+                        </button>
+                    }
+                    
+                </div>
+        
+            </div>
+          }
         </AppContainer>
     );
 }
