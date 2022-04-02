@@ -47,5 +47,5 @@ type multiSelect = {
 
 
 
-export type formField = textField | dropDownField | textArea | radioButton | multiSelect
+export type formField = textField | dropDownField | textArea | radioButton | multiSelect;
    

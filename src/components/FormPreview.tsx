@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { Reducer, useReducer, useState } from "react";
 import AppContainer from "./AppContainer";
 import FormField from "./FormField";
 import Header from "./Header";
 import {navigate} from 'raviger'
 import {formData, formField} from '../types/form'
+import {PreviewAction} from '../types/action';
 import DropDownField from "./DropDownField";
 import TextAreaField from "./TextAreaField";
 import RadioButtonField from './RadioButtonField'
@@ -28,7 +29,66 @@ export default function FormPreview(props:{id:number}) {
 
     }
 
-    const [form, setForm] = useState<formField[]>(()=>initialStage())
+    const reducer:(state:formField[], action:PreviewAction)=>formField[] = (state:formField[], action:PreviewAction)=>{
+        switch(action.type) {
+            case "value_change":
+                return(
+                    state.map((field)=>{
+                      if(action.id === field.id.toString() && field.kind !== "multiselect")
+                        return {
+                            ...field,
+                            value: action.value
+                        }
+                      return field
+                    })
+                )
+            case "option_select":
+                return(
+                    state.map((field)=>{
+                      if(action.id === field.id && field.kind !== "multiselect")
+                        return {
+                            ...field,
+                            value: action.option
+                        }
+                      return field
+                    })
+                )
+            case "multi_select":
+
+                if(action.add)
+                {
+                    return(
+                        state.map((field)=>{
+                          if(action.id === field.id && field.kind === "multiselect")
+                            return {
+                                ...field,
+                                value: [
+                                    ...field.value,
+                                    action.option
+                                ]
+                            }
+                          return field
+                        })
+                    )
+                }
+                else
+                {
+                    return(
+                        state.map((field)=>{
+                          if(action.id === field.id && field.kind === "multiselect")
+                            return {
+                                ...field,
+                                value: field.value.filter((value)=> value !== action.option)
+                            }
+                          return field
+                        })
+                    )
+                }
+        }
+    }
+
+    // refactoring only setForm as in here multiple type of action is performed
+    const [form, dispatch] = useReducer(reducer, null, ()=>initialStage())
     // next and submit
     const [buttonState, setButtonState] = useState<string>("next")
     const [currFieldIndex, setCurrFieldIndex] = useState<number>(0)
@@ -82,89 +142,89 @@ export default function FormPreview(props:{id:number}) {
 
     }
 
-    const handleChange = (e:any)=>{
-        e.preventDefault()
-        setForm(
-          form.map((field)=>{
-            if(e.target.id === field.id.toString())
-              return {
-                  ...field,
-                  value: e.target.value
-              }
-            return field
-          })
-      )
-    }
+    // const handleChange = (e:any)=>{
+    //     e.preventDefault()
+    //     setForm(
+    //       form.map((field)=>{
+    //         if(e.target.id === field.id.toString())
+    //           return {
+    //               ...field,
+    //               value: e.target.value
+    //           }
+    //         return field
+    //       })
+    //     )
+    // }
 
-    const handleOptionSelect = (option:string, id:number)=>{
+    // const handleOptionSelect = (option:string, id:number)=>{
 
-        setForm(
-            form.map((field)=>{
-              if(id === field.id && field.kind !== "multiselect")
-                return {
-                    ...field,
-                    value: option
-                }
-              return field
-            })
-        )
+    //     setForm(
+    //         form.map((field)=>{
+    //           if(id === field.id && field.kind !== "multiselect")
+    //             return {
+    //                 ...field,
+    //                 value: option
+    //             }
+    //           return field
+    //         })
+    //     )
 
-    }
+    // }
 
-    const handleMultiSelectClick: (option:string, add:boolean, id:number)=>void = 
-    (option, add, id)=>{
+    // const handleMultiSelectClick: (option:string, add:boolean, id:number)=>void = 
+    // (option, add, id)=>{
 
-        if(add)
-        {
-            setForm(
-                form.map((field)=>{
-                  if(id === field.id && field.kind === "multiselect")
-                    return {
-                        ...field,
-                        value: [
-                            ...field.value,
-                            option
-                        ]
-                    }
-                  return field
-                })
-            )
-        }
-        else
-        {
-            setForm(
-                form.map((field)=>{
-                  if(id === field.id && field.kind === "multiselect")
-                    return {
-                        ...field,
-                        value: field.value.filter((value)=> value !== option)
-                    }
-                  return field
-                })
-            )
-        }
-    } 
+    //     if(add)
+    //     {
+    //         setForm(
+    //             form.map((field)=>{
+    //               if(id === field.id && field.kind === "multiselect")
+    //                 return {
+    //                     ...field,
+    //                     value: [
+    //                         ...field.value,
+    //                         option
+    //                     ]
+    //                 }
+    //               return field
+    //             })
+    //         )
+    //     }
+    //     else
+    //     {
+    //         setForm(
+    //             form.map((field)=>{
+    //               if(id === field.id && field.kind === "multiselect")
+    //                 return {
+    //                     ...field,
+    //                     value: field.value.filter((value)=> value !== option)
+    //                 }
+    //               return field
+    //             })
+    //         )
+    //     }
+    // } 
 
     const renderField = (field:formField)=>{
         switch(field.kind)
         {
             case "text":
-                return (<FormField label={field.label} type={field.type} handleChangeCB={handleChange} value={field.value} id={field.id.toString()} focus={true}/>)
+                return (<FormField label={field.label} type={field.type} handleChangeCB={(e)=>dispatch({type:"value_change", id:e.target.id, value: e.target.value})} value={field.value} id={field.id.toString()} focus={true}/>)
             
             case "dropdown":
                 return (
                 <div className="flex justify-center">
-                    <DropDownField label={field.value?field.value:field.label} options={field.options} handleSelectCB={handleOptionSelect} id={field.id} />
+                    <DropDownField label={field.value?field.value:field.label} options={field.options} handleSelectCB={(option, id)=>dispatch({type:"option_select", option:option, id:id})} id={field.id} />
                 </div>
                 )
             case "textArea":
-                return (<TextAreaField label={field.label} handleChangeCB={handleChange} id={field.id.toString()} value={field.value}  />)
+                return (<TextAreaField label={field.label} handleChangeCB={(e)=>dispatch({type:"value_change", id:e.target.id, value: e.target.value})} id={field.id.toString()} value={field.value}  />)
             
             case "radio":
-                return (<RadioButtonField id={field.id} options={field.options} handleSelectCB={handleOptionSelect}/>)
+                return (<RadioButtonField id={field.id} options={field.options} handleSelectCB={(option, id)=>dispatch({type:"option_select", option:option, id:id})}/>)
             
             case "multiselect":
-                return (<MultiSelectField id={field.id} options={field.options} handleSelectCB={handleMultiSelectClick}/>)
+                return (<MultiSelectField id={field.id} options={field.options} handleSelectCB={(option, add, id)=>dispatch({type:"multi_select", option:option, add:add, id:id})}/>)
             
             default:
                 return (<div>None</div>)

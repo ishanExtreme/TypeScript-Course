@@ -28,4 +28,27 @@ type ClearFields = {
     type: "clear"
 }
 
+
 export type FormAction = AddAction | RemoveAction | UpdateTitle | LabelChange | AddOption | ClearFields;
+
+
+type ValueChange = {
+    type: "value_change",
+    id: string,
+    value: string
+}
+
+type OptionSelect = {
+    type: "option_select",
+    option: string,
+    id: number
+}
+
+type MultiSelect = {
+    type: "multi_select",
+    option: string,
+    add: boolean,
+    id: number
+}
+
+export type PreviewAction = ValueChange | OptionSelect | MultiSelect;
