@@ -47,60 +47,56 @@ export default function Form(props:{id:number}){
     }
 
     const getNewField:()=>formField = ()=>{
-      let newFieldObj:formField
-    
-      if(fieldType === "dropdown")
+      
+      
+      switch(fieldType)
       {
-        newFieldObj = {
-          kind:"dropdown",
-          id: Number(new Date()),
-          label: newField,
-          value:"",
-          options: []
-        }
-      }
-      else if(fieldType === "textArea")
-      {
-        newFieldObj = {
-          kind:"textArea",
-          id: Number(new Date()),
-          label: newField,
-          value:"",
-        }
-      }
-      else if(fieldType === "radio")
-      {
-        newFieldObj = {
-          kind:"radio",
-          id: Number(new Date()),
-          label: newField,
-          value:"",
-          options:[]
-        }
-      }
-      else if(fieldType === "multiselect")
-      {
-        newFieldObj = {
-          kind:"multiselect",
-          id: Number(new Date()),
-          label: newField,
-          value:[],
-          options:[]
-        }
-      }
-      else
-      {
-        newFieldObj = {
+        case "dropdown":
+            return{
+            kind:"dropdown",
+            id: Number(new Date()),
+            label: newField,
+            value:"",
+            options: []
+            }
+        
+        case "textArea":
+          return {
+            kind:"textArea",
+            id: Number(new Date()),
+            label: newField,
+            value:"",
+          }
+
+        case "radio":
+          return {
+            kind:"radio",
+            id: Number(new Date()),
+            label: newField,
+            value:"",
+            options:[]
+          }
+
+        case "multiselect":
+          return {
+            kind:"multiselect",
+            id: Number(new Date()),
+            label: newField,
+            value:[],
+            options:[]
+          }
+
+        default:
+          return {
             kind:"text",
             id: Number(new Date()),
             label: newField,
             type: fieldType,
             value:""
-        }
+          }
+          
       }
-
-
-      return newFieldObj;
+      
     }
 
 
