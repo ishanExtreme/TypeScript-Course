@@ -9,7 +9,7 @@ export default function TextAreaField (
     }){
 
     return(
-        <div className="mb-3 xl:w-96">
+        <div className="xl:w-96">
             <label className="form-label inline-block mb-2 text-gray-700">
                 {props.label}
             </label>

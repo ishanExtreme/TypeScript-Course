@@ -239,7 +239,7 @@ export default function FormPreview(props:{id:number}) {
                 <h1>Form is Empty</h1>
             </div>
             :
-            <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
+            <div className="flex flex-col justify-center items-center p-4 w-[30rem] h-[20rem] mx-auto bg-white shadow-lg rounded-xl">
         
                 <Header title={curr_form_data.title}/>
         

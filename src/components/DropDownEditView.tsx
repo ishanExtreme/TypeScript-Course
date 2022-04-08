@@ -25,8 +25,8 @@ export default function DropDownEditView (
     }
     
     return (
-    <div className="mb-3">
-    <div className="flex flex-col border-2 border-cyan-400 w-[30rem] p-5 justify-center items-center">
+    <div>
+    <div className="flex flex-col w-[30rem] p-5 justify-center items-center">
 
         <div className="flex items-center gap-2">
             <input

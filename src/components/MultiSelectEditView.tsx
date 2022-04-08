@@ -26,8 +26,8 @@ export default function MultiSelectEditView (
     }
 
     return (
-    <div className="mb-3">
-        <div className="flex flex-col gap-3 border-2 border-cyan-400 w-[30rem] p-5 justify-center items-center">
+    <div >
+        <div className="flex flex-col gap-3 w-[30rem] p-5 justify-center items-center">
             
             <input
             type="text"

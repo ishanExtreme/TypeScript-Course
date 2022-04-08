@@ -316,13 +316,17 @@ export default function Form(props:{id:number}){
     
             <div className="flex flex-col items-center mt-5 mb-5">
 
-              <FormField label="Form Title" type="text" handleChangeCB={(e)=>dispatch({type:"update_title", title:e.target.value})} value={fields.title} id={String(new Date())} focus={true}/>
-    
+              <div className="mb-3">
+                <FormField label="Form Title" type="text" handleChangeCB={(e)=>dispatch({type:"update_title", title:e.target.value})} value={fields.title} id={String(new Date())} focus={true}/>
+              </div>
+
               {fields.formFields.map((field)=>(
-                renderField(field)
+                <div className="flex flex-col mb-5 bg-gray-200 shadow-lg rounded-xl w-[30rem] p-5 justify-center items-center gap-y-2">
+                  {renderField(field)}
+                </div>
               ))}
 
-              <div className="flex flex-col border-2 border-green-600 w-[30rem] p-5 justify-center items-center gap-y-2">
+              <div className="flex flex-col bg-blue-200 shadow-lg rounded-xl w-[30rem] p-5 justify-center items-center gap-y-2">
                 {/* Select type dropdown */}
                 <DropDownField label="Choose Type" options={fieldTypeOptions} handleSelectCB={handleTypeSelect}/>
                 <FormField label="Add Field" type="text" handleChangeCB={handleNewFieldChange} value={newField} id={String(new Date())} handleClickCB={()=>dispatch({type:"add_field"})} focus={false}/>

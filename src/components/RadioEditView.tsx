@@ -24,8 +24,8 @@ export default function RadioEditView (
     }
 
     return (
-    <div className="mb-3">
-        <div className="flex flex-col justify-center items-center  border-2 border-cyan-400 w-[30rem] h-[10rem] px-5 py-5 overflow-auto">
+    <div >
+        <div className="flex flex-col justify-center items-center w-[30rem] h-[10rem] px-5 py-5 overflow-auto">
 
             <div className="flex items-center gap-2 mb-5">
 
