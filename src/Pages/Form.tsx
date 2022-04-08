@@ -1,15 +1,15 @@
 import React from "react";
 import { useState, useEffect, useReducer} from 'react';
-import AppContainer from './AppContainer';
-import FormField from './FormField';
-import Header from './Header';
+import AppContainer from '../components/AppContainer';
+import FormField from '../components/FormField';
+import Header from '../components/Header';
 import {Link} from 'raviger'
 import {formData, formField} from '../types/form'
 import {FormAction} from '../types/action'
-import DropDownEditView from "./DropDownEditView";
-import DropDownField from "./DropDownField"
-import RadioEditView from "./RadioEditView";
-import MultiSelectEditView from "./MultiSelectEditView";
+import DropDownEditView from "../components/DropDownEditView";
+import DropDownField from "../components/DropDownField"
+import RadioEditView from "../components/RadioEditView";
+import MultiSelectEditView from "../components/MultiSelectEditView";
 
 const fieldTypeOptions = ["text", "email", "date", "tel", "dropdown", "textArea", "radio", "multiselect"]
 

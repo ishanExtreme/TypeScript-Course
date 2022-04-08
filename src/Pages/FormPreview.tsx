@@ -1,14 +1,14 @@
 import React, { Reducer, useReducer, useState } from "react";
-import AppContainer from "./AppContainer";
-import FormField from "./FormField";
-import Header from "./Header";
+import AppContainer from "../components/AppContainer";
+import FormField from "../components/FormField";
+import Header from "../components/Header";
 import {navigate} from 'raviger'
 import {formData, formField} from '../types/form'
 import {PreviewAction} from '../types/action';
-import DropDownField from "./DropDownField";
-import TextAreaField from "./TextAreaField";
-import RadioButtonField from './RadioButtonField'
-import MultiSelectField from './MultiSelectField'
+import DropDownField from "../components/DropDownField";
+import TextAreaField from "../components/TextAreaField";
+import RadioButtonField from '../components/RadioButtonField'
+import MultiSelectField from '../components/MultiSelectField'
 
 let curr_form_data:formData
 

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import AppContainer from "./AppContainer";
+import AppContainer from "../components/AppContainer";
 import {useQueryParams, navigate, Link} from 'raviger'
-import FormField from "./FormField";
+import FormField from "../components/FormField";
 import {formData, formField} from '../types/form'
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import AppContainer from "./AppContainer";
+import AppContainer from "../components/AppContainer";
 import {Link} from 'raviger'
 
 export default function Home() {

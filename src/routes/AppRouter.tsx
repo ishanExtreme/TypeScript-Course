@@ -1,8 +1,8 @@
 import {useRoutes} from 'raviger'
-import Form from '../components/Form';
-import FormPreview from '../components/FormPreview';
-import Home from '../components/Home'
-import ListForm from '../components/ListForms'
+import Form from '../Pages/Form';
+import FormPreview from '../Pages/FormPreview';
+import Home from '../Pages/Home'
+import ListForm from '../Pages/ListForm'
 
 const routes = {
     '/': ()=><Home />,
