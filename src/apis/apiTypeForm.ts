@@ -1,3 +1,5 @@
+import { FormApi } from "../types/apis";
+
 const API_BASE_URL = "https://tsapi.coronasafe.live/api/"
 
 type RequestMethod = 'POST' | 'GET' | 'PATCH' | 'DELETE' | 'PUT'
@@ -51,4 +53,8 @@ export const login = (username: string, password: string)=> {
 
 export const me = () =>{
     return request('users/me/', 'GET', {})
+}
+
+export const createForm = (newForm:FormApi)=>{
+    return request('forms/', 'POST', newForm)
 }

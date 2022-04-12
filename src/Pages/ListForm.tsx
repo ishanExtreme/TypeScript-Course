@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
-import AppContainer from "../components/AppContainer";
 import {useQueryParams, navigate, Link} from 'raviger'
 import FormField from "../components/FormField";
 import {formData, formField} from '../types/form'
+import CreateForm from '../components/CreateForm'
 
 
 const formFields: formField[] = [
@@ -18,6 +18,8 @@ export default function ListForm() {
     const [{search}, setQuery] = useQueryParams();
     const [searchString, setSearchString] = useState<string>("");
     const [formList, setFormList] = useState<formData[]>([]);
+
+    const [open, setOpen] = useState(false)
   
 
     const getLocalForms: ()=>formData[] = ()=>{
@@ -31,18 +33,23 @@ export default function ListForm() {
         localStorage.setItem("savedForms", JSON.stringify(localForms))
     }
 
+    const hanldeOpenToogle = (openVal:boolean)=>{
+        setOpen(openVal)
+    }
+
     const createNewForm = ()=>{
+        
+        hanldeOpenToogle(true)
+        // const newForm = {
+        //   id: Number(new Date()),
+        //   title: "Untitled",
+        //   formFields
+        // }
 
-        const newForm = {
-          id: Number(new Date()),
-          title: "Untitled",
-          formFields
-        }
-
-        setFormList([...formList, newForm])
-        saveLocalForms([...formList, newForm])
-        // redirect to new form
-        navigate(`form/${newForm.id}`);
+        // setFormList([...formList, newForm])
+        // saveLocalForms([...formList, newForm])
+        // // redirect to new form
+        // navigate(`form/${newForm.id}`);
     }
 
     useEffect(()=>{
@@ -66,6 +73,9 @@ export default function ListForm() {
       
         
             <div className="p-4 max-h-full overflow-auto mx-auto bg-white shadow-lg rounded-xl min-w-[50%] text-center">
+                
+                <CreateForm open={open} toogleOpen={hanldeOpenToogle} />
+                
                 <div className="py-3 px-6 border-b border-gray-300">
                     Your Saved Forms
                 </div>
