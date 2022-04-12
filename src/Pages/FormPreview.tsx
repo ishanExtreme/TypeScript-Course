@@ -233,8 +233,8 @@ export default function FormPreview(props:{id:number}) {
 
     return (
         
-        <AppContainer>
-            {form.length === 0 ? 
+        
+            form.length === 0 ? 
             <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
                 <h1>Form is Empty</h1>
             </div>
@@ -276,7 +276,7 @@ export default function FormPreview(props:{id:number}) {
                 </div>
         
             </div>
-            }
-        </AppContainer>
+            
+        
     );
 }

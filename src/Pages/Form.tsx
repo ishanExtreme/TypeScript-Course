@@ -309,7 +309,7 @@ export default function Form(props:{id:number}){
     }
 
     return (
-        <AppContainer>
+        
           <div className="p-4 px-10 mx-auto max-h-full bg-white shadow-lg rounded-xl overflow-auto">
     
             <Header title="Welcome to #react-typescript with #tailwindcss "/>
@@ -357,6 +357,6 @@ export default function Form(props:{id:number}){
             </div>
     
           </div>
-        </AppContainer>
+        
       );
 }

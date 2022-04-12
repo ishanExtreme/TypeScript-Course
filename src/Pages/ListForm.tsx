@@ -64,7 +64,7 @@ export default function ListForm() {
 
     return (
       
-        <AppContainer>
+        
             <div className="p-4 max-h-full overflow-auto mx-auto bg-white shadow-lg rounded-xl min-w-[50%] text-center">
                 <div className="py-3 px-6 border-b border-gray-300">
                     Your Saved Forms
@@ -118,7 +118,7 @@ export default function ListForm() {
                 </div>
             
             </div>
-        </AppContainer>
+        
             
         
     );

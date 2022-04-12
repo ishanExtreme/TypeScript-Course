@@ -20,7 +20,7 @@ export default function FormField(
 
 
     return (
-        <div className="form-floating xl:w-96">
+        <div className="form-floating">
                 <input
                 id={props.id} 
                 type={props.type}

@@ -5,7 +5,7 @@ import {Link} from 'raviger'
 export default function Home() {
 
     return (
-        <AppContainer>
+       
             
             <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
                 <a href="#!">
@@ -26,6 +26,6 @@ export default function Home() {
                 </div>
             </div>
 
-        </AppContainer>
+       
     );
 }
