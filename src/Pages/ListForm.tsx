@@ -5,13 +5,14 @@ import {formData, formField} from '../types/form'
 import {FormDataApi} from '../types/apis'
 import CreateForm from '../components/CreateForm'
 import { getFormList, deleteFormApi } from "../apis/apiTypeForm";
-
+import Paginator from '../components/Paginator'
 
 const formApiCall = async (setFormList:(form:FormDataApi[])=>void, 
-setLoading:(load:boolean)=>void)=>{
+setLoading:(load:boolean)=>void, offset:number, setTotalPage:(page:number)=>void)=>{
 
-    const forms = await getFormList()
+    const forms = await getFormList({limit:3, offset:(offset*3)})
     setFormList(forms.results)
+    setTotalPage(Math.ceil(forms.count/3))
     setLoading(false)
 
 }
@@ -24,6 +25,8 @@ export default function ListForm() {
 
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [page, setPage] = useState(0)
+    const [totalPage, setTotalPage] = useState(0)
   
 
     // const getLocalForms: ()=>formData[] = ()=>{
@@ -63,7 +66,7 @@ export default function ListForm() {
         try
         {
             setLoading(true)
-            formApiCall(setFormList, setLoading)
+            formApiCall(setFormList, setLoading, 0, setTotalPage)
         }
         catch(error)
         {
@@ -78,7 +81,7 @@ export default function ListForm() {
         {
             setLoading(true)
             await deleteFormApi(id)
-            formApiCall(setFormList, setLoading)
+            formApiCall(setFormList, setLoading, page, setTotalPage)
         }
         catch(error)
         {
@@ -91,6 +94,30 @@ export default function ListForm() {
         e.preventDefault()
         setSearchString(e.target.value)
     }
+
+    const handleIncrementPage = ()=>{
+
+        if(page+1 >= totalPage)
+            return;
+        else
+        {   setLoading(true)
+            const newPage = page+1
+            setPage(newPage)
+            formApiCall(setFormList, setLoading, newPage, setTotalPage)
+        }
+    }
+
+    const handleDecrementPage = ()=>{
+        if(page-1 < 0)
+            return;
+        else
+        {   setLoading(true)
+            const newPage = page-1
+            setPage(newPage)
+            formApiCall(setFormList, setLoading, newPage, setTotalPage)
+        }
+    }
+
 
     return (
       
@@ -152,6 +179,8 @@ export default function ListForm() {
                     
 
                     <button type="button" onClick={createNewForm} className="mt-5 inline-block  px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-green active:shadow-lg transition duration-150 ease-in-out">New Form</button>
+                
+                    <Paginator currentPage={page} totalPage={totalPage} incrementPage={handleIncrementPage} decrementPage={handleDecrementPage}/>
                 </div>
                 <div className="py-3 px-6 border-t border-gray-300 text-gray-600">
                     <Link href="/" className="inline-block  px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Home</Link>

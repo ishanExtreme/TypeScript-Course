@@ -67,8 +67,8 @@ export const createForm = (newForm:FormApi)=>{
     return request('forms/', 'POST', newForm)
 }
 
-export const getFormList = ()=>{
-    return request('forms/', 'GET', {})
+export const getFormList = (pageParams:PaginationParams)=>{
+    return request('forms/', 'GET', pageParams)
 }
 
 export const deleteFormApi = (id:number)=>{
