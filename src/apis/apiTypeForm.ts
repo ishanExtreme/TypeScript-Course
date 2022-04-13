@@ -1,11 +1,11 @@
-import { FormApi, FormFieldApi } from "../types/apis";
+import { FormApi, FormFieldApi, formSubmission, PaginationParams } from "../types/apis";
 import { formField } from "../types/form";
 
 const API_BASE_URL = "https://tsapi.coronasafe.live/api/"
 
 type RequestMethod = 'POST' | 'GET' | 'PATCH' | 'DELETE' | 'PUT'
 
-const request = async (endpoint: string, method:RequestMethod = 'GET', data:any = {}, returnData:boolean = true)=>{
+const request = async (endpoint: string, method:RequestMethod = 'GET', data:any = {}, returnData:boolean = true, anonymousAccess:boolean = false)=>{
 
     let url;
     let payload;
@@ -20,11 +20,14 @@ const request = async (endpoint: string, method:RequestMethod = 'GET', data:any 
     }
 
     // Basic Authentication
-    // const auth = "BASIC" + window.btoa("extreme:Ishan@2605");
+    // const auth = "BASIC " + window.btoa("extreme:Ishan@2605");
 
     // Token Based Authentication
     const token = localStorage.getItem("token");
-    const auth = token ? "Token " + token : "";
+    let auth = token ? "Token " + token : "";
+
+    if(anonymousAccess)
+        auth = "BASIC " + window.btoa("extreme:Ishan@2605");
 
 
     const response = await fetch(
@@ -76,6 +79,10 @@ export const getForm = (id:number)=>{
     return request(`forms/${id}`, 'GET', {})
 }
 
+export const getFormAnonymous = (id:number)=>{
+    return request(`forms/${id}`, 'GET', {}, true, true)
+}
+
 export const getFormFields = (id:number)=>{
     return request(`forms/${id}/fields`, 'GET', {})
 }
@@ -95,4 +102,12 @@ export const deleteFormField = (form_id:number, field_id:number)=>{
 
 export const changeFormField = (form_id:number, field_id:number, formField:any)=>{
     return request (`forms/${form_id}/fields/${field_id}`, 'PUT', formField, false)
+}
+
+export const getFormFieldsPaginated = (id:number, pageParams:PaginationParams)=>{
+    return request(`forms/${id}/fields`, 'GET', pageParams, true, true)
+}
+
+export const makeSubmission = (form_id:number, submission:formSubmission)=>{
+    return request(`forms/${form_id}/submission/`, 'POST', submission, true, true)
 }

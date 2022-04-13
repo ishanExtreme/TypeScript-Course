@@ -57,3 +57,21 @@ export const validateForm = (form:FormApi) => {
 
     return errors;
 }
+
+export type PaginationParams = {
+    offset: number,
+    limit: number
+}
+
+export type formAnswer = {
+    form_field: number,
+    value: string
+}
+export type formSubmission = {
+    answers: formAnswer[],
+    form: {
+        title: string,
+        description: string,
+        is_public: boolean
+    }
+}

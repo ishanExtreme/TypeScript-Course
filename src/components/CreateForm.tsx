@@ -5,6 +5,7 @@ import FormField from '../components/FormField'
 import {FormApi, Error, validateForm} from '../types/apis'
 import TextAreaField from '../components/TextAreaField'
 import {createForm} from '../apis/apiTypeForm'
+import { navigate } from "raviger";
 
 
 export default function CreateForm(props:{
@@ -47,8 +48,8 @@ export default function CreateForm(props:{
         if(Object.keys(validationError).length === 0) {
             try {
                 const data = await createForm(newForm)
-                console.log(data)
                 props.toogleOpen(false)
+                navigate(`form/${data.id}`)
             } 
             catch(error)
             {

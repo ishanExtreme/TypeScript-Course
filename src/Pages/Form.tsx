@@ -19,10 +19,9 @@ let fieldTypeSet:fieldType
 const getFields = async (id:number, 
   dispatch:(action:FormAction)=>void, 
   setLoading:(load:boolean)=>void)=>{
+    
   const currentForm:FormApi = await getForm(id)
   const formFieldsApi = await getFormFields(id)
-
-  console.log(formFieldsApi.results)
 
   const formFields:formField[] = formFieldsApi.results.map((formField:FormFieldApi)=>{
     if(formField.kind !== "RADIO" &&  formField.kind !== "DROPDOWN")

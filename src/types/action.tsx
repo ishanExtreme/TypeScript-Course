@@ -59,4 +59,9 @@ type MultiSelect = {
     id: number
 }
 
-export type PreviewAction = ValueChange | OptionSelect | MultiSelect;
+type InitialStagePrev = {
+    type: "initial_stage",
+    stage: formField
+}
+
+export type PreviewAction = ValueChange | OptionSelect | MultiSelect | InitialStagePrev;
