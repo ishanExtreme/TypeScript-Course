@@ -1,15 +1,17 @@
 export interface formData {
     id: number;
     title: string;
+    description: string;
+    is_public: boolean;
     formFields: formField[];
 }
 
+export type textFieldType = "text" | "email" | "date" | "tel"
 
 type textField = {
-    kind: "text",
+    kind: textFieldType,
     id: number;
     label: string;
-    type: string;
     value: string;
 }
 
@@ -45,6 +47,7 @@ type multiSelect = {
     options: string[]
 }
 
+export type fieldType = textFieldType | "dropdown" | "textArea" | "radio" | "multiselect"
 
 
 export type formField = textField | dropDownField | textArea | radioButton | multiSelect;

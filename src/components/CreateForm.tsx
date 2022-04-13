@@ -48,6 +48,7 @@ export default function CreateForm(props:{
             try {
                 const data = await createForm(newForm)
                 console.log(data)
+                props.toogleOpen(false)
             } 
             catch(error)
             {

@@ -10,6 +10,25 @@ export type FormApi = {
     is_public?: boolean
 }
 
+export type FormDataApi = {
+    id?:number,
+    title: string,
+    description?: string,
+    is_public?: boolean,
+    created_by?:string,
+    created_date?:string,
+    modified_date?:string
+}
+
+export type FormFieldApi = {
+    id:number,
+    kind:string,
+    label:string,
+    meta:{type:string},
+    options?:{}
+    value:string
+}
+
 export type Error<T> = Partial<Record<keyof T, string>>
 
 export const validateUser = (user:UserApi) => {

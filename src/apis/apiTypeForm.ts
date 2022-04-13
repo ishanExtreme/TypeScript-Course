@@ -1,10 +1,11 @@
-import { FormApi } from "../types/apis";
+import { FormApi, FormFieldApi } from "../types/apis";
+import { formField } from "../types/form";
 
 const API_BASE_URL = "https://tsapi.coronasafe.live/api/"
 
 type RequestMethod = 'POST' | 'GET' | 'PATCH' | 'DELETE' | 'PUT'
 
-const request = async (endpoint: string, method:RequestMethod = 'GET', data:any = {})=>{
+const request = async (endpoint: string, method:RequestMethod = 'GET', data:any = {}, returnData:boolean = true)=>{
 
     let url;
     let payload;
@@ -37,10 +38,14 @@ const request = async (endpoint: string, method:RequestMethod = 'GET', data:any 
         body: (method !== 'GET') ? payload : null
         
     })
+    
 
     if(response.ok) {
-        const json = await response.json();
-        return json;
+        if(returnData)
+        {
+            const json = await response.json();
+            return json;
+        }
     } else {
         const errorJson = await response.json()
         throw Error(errorJson);
@@ -57,4 +62,37 @@ export const me = () =>{
 
 export const createForm = (newForm:FormApi)=>{
     return request('forms/', 'POST', newForm)
+}
+
+export const getFormList = ()=>{
+    return request('forms/', 'GET', {})
+}
+
+export const deleteFormApi = (id:number)=>{
+    return request(`forms/${id}`, 'DELETE', {}, false)
+}
+
+export const getForm = (id:number)=>{
+    return request(`forms/${id}`, 'GET', {})
+}
+
+export const getFormFields = (id:number)=>{
+    return request(`forms/${id}/fields`, 'GET', {})
+}
+
+export const changeForm = (id:number, form:FormApi)=>{
+    return request(`forms/${id}`, 'PUT', form)
+}
+
+export const addFormField = (id:number, formField:any)=>{
+    
+    return request(`forms/${id}/fields/`, 'POST', formField)
+}
+
+export const deleteFormField = (form_id:number, field_id:number)=>{
+    return request (`forms/${form_id}/fields/${field_id}`, 'DELETE', {}, false)
+}
+
+export const changeFormField = (form_id:number, field_id:number, formField:any)=>{
+    return request (`forms/${form_id}/fields/${field_id}`, 'PUT', formField, false)
 }

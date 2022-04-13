@@ -2,36 +2,40 @@ import React, {useState, useEffect} from "react";
 import {useQueryParams, navigate, Link} from 'raviger'
 import FormField from "../components/FormField";
 import {formData, formField} from '../types/form'
+import {FormDataApi} from '../types/apis'
 import CreateForm from '../components/CreateForm'
+import { getFormList, deleteFormApi } from "../apis/apiTypeForm";
 
 
-const formFields: formField[] = [
-    {kind:"text", id:1, label: "First Name", type: "text", value:""},
-    {kind:"text", id:2, label: "Last Name", type: "text", value:""},
-    {kind:"text", id:3, label: "Email", type: "email", value:""},
-    {kind:"text", id:4, label: "Phone Number", type: "tel", value:""},
-    {kind:"text", id:5, label: "Date of Birth", type: "date", value:""},
-]
+const formApiCall = async (setFormList:(form:FormDataApi[])=>void, 
+setLoading:(load:boolean)=>void)=>{
+
+    const forms = await getFormList()
+    setFormList(forms.results)
+    setLoading(false)
+
+}
 
 export default function ListForm() {
 
     const [{search}, setQuery] = useQueryParams();
     const [searchString, setSearchString] = useState<string>("");
-    const [formList, setFormList] = useState<formData[]>([]);
+    const [formList, setFormList] = useState<FormDataApi[]>([]);
 
     const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
   
 
-    const getLocalForms: ()=>formData[] = ()=>{
-      const savedFormsJSON = localStorage.getItem("savedForms")
-      return savedFormsJSON 
-      ? JSON.parse(savedFormsJSON) 
-      : []
-    }
+    // const getLocalForms: ()=>formData[] = ()=>{
+    //   const savedFormsJSON = localStorage.getItem("savedForms")
+    //   return savedFormsJSON 
+    //   ? JSON.parse(savedFormsJSON) 
+    //   : []
+    // }
 
-    const saveLocalForms = (localForms: formData[])=>{
-        localStorage.setItem("savedForms", JSON.stringify(localForms))
-    }
+    // const saveLocalForms = (localForms: formData[])=>{
+    //     localStorage.setItem("savedForms", JSON.stringify(localForms))
+    // }
 
     const hanldeOpenToogle = (openVal:boolean)=>{
         setOpen(openVal)
@@ -52,15 +56,34 @@ export default function ListForm() {
         // navigate(`form/${newForm.id}`);
     }
 
+    
+
     useEffect(()=>{
-        setFormList(getLocalForms())
+
+        try
+        {
+            setLoading(true)
+            formApiCall(setFormList, setLoading)
+        }
+        catch(error)
+        {
+            setFormList([])
+        }
+        
     },[])
 
 
-    const deleteForm = (id:number)=>{
-        const updatedFormList = formList.filter((form)=> id !== form.id)
-        setFormList(updatedFormList)
-        saveLocalForms(updatedFormList)
+    const deleteForm = async (id:number)=>{
+        try
+        {
+            setLoading(true)
+            await deleteFormApi(id)
+            formApiCall(setFormList, setLoading)
+        }
+        catch(error)
+        {
+            console.log(error)
+        }
     }
     
 
@@ -89,8 +112,15 @@ export default function ListForm() {
                 className="flex justify-center mb-5">
                     <FormField label="Search" type="text" handleChangeCB={handleSearchChange} value={searchString} id="1" focus={true}/>
                 </form>
-
-                {formList.
+                
+                {loading?
+                <div className="flex flex-row justify-center mb-3"> 
+                    <div className="spinner-grow inline-block w-8 h-8 bg-current rounded-full opacity-0" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                :
+                formList.
                 filter((form)=>
                     form.title.toLowerCase().includes(search?.toLocaleLowerCase() || "")
                     )
@@ -110,7 +140,7 @@ export default function ListForm() {
                                         <img src="./images/icons/edit.png"/>
                                     </Link>
 
-                                    <button onClick={()=>deleteForm(form.id)} type="button" className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
+                                    <button onClick={()=>deleteForm(form.id?form.id:0)} type="button" className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
                                         <img src="./images/icons/del.png"/>
                                     </button>
                                 </div>

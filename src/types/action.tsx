@@ -1,3 +1,5 @@
+import { formData, formField } from "./form";
+
 type RemoveAction = {
     type: "remove_field",
     id: number
@@ -5,7 +7,13 @@ type RemoveAction = {
 
 type AddAction = {
     type: "add_field",
+    field:formField
 };
+
+type InitialStage = {
+    type: "initial_stage"
+    stage: formData
+}
 
 type UpdateTitle = {
     type: "update_title",
@@ -29,7 +37,7 @@ type ClearFields = {
 }
 
 
-export type FormAction = AddAction | RemoveAction | UpdateTitle | LabelChange | AddOption | ClearFields;
+export type FormAction = AddAction | RemoveAction | UpdateTitle | LabelChange | AddOption | ClearFields | InitialStage;
 
 
 type ValueChange = {

@@ -92,13 +92,13 @@ export default function FormPreview(props:{id:number}) {
     // next and submit
     const [buttonState, setButtonState] = useState<string>("next")
     const [currFieldIndex, setCurrFieldIndex] = useState<number>(0)
-    const [type, setType] = useState<string>("")
+    // const [type, setType] = useState<string>("")
 
-    const setTypeUtil:(field:formField)=>void = (field)=>{
+    // const setTypeUtil:(field:formField)=>void = (field)=>{
 
-        if(field.kind === "text")
-            setType(field.type)
-    }
+    //     if(field.kind === "text")
+    //         setType(field.type)
+    // }
 
     const nextField = ()=>{
         // check if this is the last field
@@ -108,14 +108,14 @@ export default function FormPreview(props:{id:number}) {
             const ind = currFieldIndex+1
             setButtonState("submit")
             setCurrFieldIndex(ind)
-            setTypeUtil(form[ind])
+            // setTypeUtil(form[ind])
         }
         else
         {
         // else increase counter
             const ind = currFieldIndex+1
             setCurrFieldIndex(ind)
-            setTypeUtil(form[ind])
+            // setTypeUtil(form[ind])
         }
     }
 
@@ -208,8 +208,6 @@ export default function FormPreview(props:{id:number}) {
     const renderField = (field:formField)=>{
         switch(field.kind)
         {
-            case "text":
-                return (<FormField label={field.label} type={field.type} handleChangeCB={(e)=>dispatch({type:"value_change", id:e.target.id, value: e.target.value})} value={field.value} id={field.id.toString()} focus={true}/>)
             
             case "dropdown":
                 return (
@@ -227,7 +225,7 @@ export default function FormPreview(props:{id:number}) {
                 return (<MultiSelectField id={field.id} options={field.options} handleSelectCB={(option, add, id)=>dispatch({type:"multi_select", option:option, add:add, id:id})}/>)
             
             default:
-                return (<div>None</div>)
+                return (<FormField label={field.label} type={field.kind} handleChangeCB={(e)=>dispatch({type:"value_change", id:e.target.id, value: e.target.value})} value={field.value} id={field.id.toString()} focus={true}/>)
         }
     }
 
