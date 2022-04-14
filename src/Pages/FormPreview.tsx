@@ -1,9 +1,8 @@
-import React, { Reducer, useEffect, useReducer, useState } from "react";
-import AppContainer from "../components/AppContainer";
+import React, { useEffect, useReducer, useState } from "react";
 import FormField from "../components/FormField";
 import Header from "../components/Header";
 import {navigate} from 'raviger'
-import {formData, formField} from '../types/form'
+import {formField} from '../types/form'
 import {PreviewAction} from '../types/action';
 import DropDownField from "../components/DropDownField";
 import TextAreaField from "../components/TextAreaField";
@@ -11,6 +10,7 @@ import RadioButtonField from '../components/RadioButtonField'
 import MultiSelectField from '../components/MultiSelectField'
 import { getFormAnonymous, getFormFieldsPaginated, makeSubmission } from "../apis/apiTypeForm";
 import { formAnswer, FormFieldApi, formSubmission } from "../types/apis";
+import { triggerToast } from "../utils/notification";
 
 let formTitle:string
 let formDescription:string
@@ -257,10 +257,12 @@ export default function FormPreview(props:{id:number}) {
 
         try{
             await makeSubmission(props.id, submission)
+            triggerToast("success", "Form submitted succesfully!!!")
         }
         catch(error)
         {
             console.log(error)
+            triggerToast("error", "Server Error, Please try again later.")
         }
         // redirect to homepage
         navigate("/");

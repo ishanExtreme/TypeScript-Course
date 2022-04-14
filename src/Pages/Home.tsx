@@ -1,8 +1,10 @@
-import React from "react";
-import AppContainer from "../components/AppContainer";
+import React, { useEffect } from "react";
 import {Link} from 'raviger'
+import { triggerToast } from "../utils/notification";
+
 
 export default function Home() {
+
 
     return (
        
@@ -19,7 +21,7 @@ export default function Home() {
                     Create your own custom form and share it with others to get insight easily with visuals in graphs.
                 </p>
                 <div className="flex justify-center">
-                    <Link href="/list" className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    <Link onClick={()=>triggerToast("default", "Make your own form now!!! 😎")} href="/list" className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                         Open Form
                     </Link>
                 </div>
@@ -29,3 +31,5 @@ export default function Home() {
        
     );
 }
+
+

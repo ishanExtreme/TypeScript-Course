@@ -3,6 +3,7 @@ import FormField from '../components/FormField'
 import {Error, UserApi, validateUser} from '../types/apis'
 import {login} from '../apis/apiTypeForm'
 import { navigate } from 'raviger'
+import {triggerToast} from '../utils/notification'
 
 export default function Signin() {
 
@@ -34,12 +35,22 @@ export default function Signin() {
                 const data = await login(username, password)
                 localStorage.setItem("token", data.token)
                 navigate("/")
+                
                 window.location.reload()
+
+               
             } 
             catch(error)
             {
                 console.log(error)
+                triggerToast("error", "Server Error, Please try again later.")
             }
+        }
+        else {
+            if(validationError.username)
+                triggerToast("warning", `${validationError.username}`)
+            if(validationError.password)
+                triggerToast("warning", `${validationError.password}`)
         }
 
 

@@ -6,6 +6,7 @@ import {FormApi, Error, validateForm} from '../types/apis'
 import TextAreaField from '../components/TextAreaField'
 import {createForm} from '../apis/apiTypeForm'
 import { navigate } from "raviger";
+import { triggerToast } from "../utils/notification";
 
 
 export default function CreateForm(props:{
@@ -50,11 +51,17 @@ export default function CreateForm(props:{
                 const data = await createForm(newForm)
                 props.toogleOpen(false)
                 navigate(`form/${data.id}`)
+                triggerToast("success", "Form created succesfully!!!")
             } 
             catch(error)
             {
                 console.log(error)
+                triggerToast("error", "Server Error, Please try again later.")
             }
+        }
+        else {
+          if(validationError.title)
+            triggerToast("warning", validationError.title)
         }
     }
 

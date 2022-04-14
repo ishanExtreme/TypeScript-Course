@@ -1,6 +1,7 @@
 import React from 'react'; 
 import { CopyToClipboard } from 'react-copy-to-clipboard'; 
 import { useState } from 'react';
+import { triggerToast } from '../utils/notification';
 
 export default function CopyClipboard(props:{formID:number}) { 
     const [copied, setCopied] = useState(false);
@@ -10,6 +11,7 @@ export default function CopyClipboard(props:{formID:number}) {
         setTimeout(() => {
         setCopied(false);
         }, 1000);
+        triggerToast("success", "Copied Successfully!!!")
     };
 
     return (
@@ -19,7 +21,6 @@ export default function CopyClipboard(props:{formID:number}) {
                 <img src={process.env.PUBLIC_URL+"  /images/icons/clip.png"}/>
             </button>
         </CopyToClipboard>
-        {copied && <span>Copied!</span>}
         </div>
     );
 }

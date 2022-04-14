@@ -11,6 +11,7 @@ import RadioEditView from "../components/RadioEditView";
 import MultiSelectEditView from "../components/MultiSelectEditView";
 import { FormApi, FormFieldApi } from "../types/apis";
 import { addFormField, changeForm, changeFormField, deleteFormField, getForm, getFormFields } from "../apis/apiTypeForm";
+import { triggerToast } from "../utils/notification";
 
 const fieldTypeOptions:fieldType[] = ["text", "email", "date", "tel", "dropdown", "textArea", "radio"]
 
@@ -413,11 +414,13 @@ export default function Form(props:{id:number}){
 
         })
         navigate("/list")
+        triggerToast("success", "Form saved successfully!!!")
         setLoadSubmit(false)
       }
       catch(error)
       {
         console.log(error)
+        triggerToast("error", "Server Error, Please try again later.")
       }
 
     }
@@ -438,6 +441,7 @@ export default function Form(props:{id:number}){
       setLoadAdd(true)
       let newFieldObj = getNewField()
       const data = await callAddFieldApi(props.id, newFieldObj);
+      triggerToast("success", "New field added sucessfully!!!")
       setLoadAdd(false)
       newFieldObj.id = data.id
       dispatch({type:"add_field", field:newFieldObj})
@@ -450,10 +454,12 @@ export default function Form(props:{id:number}){
       try
       {
         await deleteFormField(props.id, id)
+        triggerToast("info", "Form field removed")
       }
       catch(error)
       {
         console.log(error)
+        triggerToast("error", "Server Error, Please try again later.")
       }
       setLoadRemove(false)
     }

@@ -3,7 +3,7 @@ import 'tw-elements';
 import AppRouter from './routes/AppRouter';
 import {me} from './apis/apiTypeForm'
 import {user} from './types/user'
-
+import {triggerToast} from './utils/notification'
 
 const getCurrentUser = async (setCurrentUser: (user:user)=>void) =>{
   const currtUser = await me();
@@ -18,15 +18,18 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState<user>(null);
 
+
   useEffect(()=>{
     getCurrentUser(setCurrentUser);
   },[])
 
 
   return (
-    
-    <AppRouter currentUser={currentUser}/>
-    
+
+      <>
+        <AppRouter currentUser={currentUser}/>
+      </>
+
   );
 }
 

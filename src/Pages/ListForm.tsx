@@ -6,6 +6,7 @@ import CreateForm from '../components/CreateForm'
 import { getFormList, deleteFormApi } from "../apis/apiTypeForm";
 import Paginator from '../components/Paginator'
 import CopyClipboard from '../components/CopyClipboard'
+import { triggerToast } from "../utils/notification";
 
 const formApiCall = async (setFormList:(form:FormDataApi[])=>void, 
 setLoading:(load:boolean)=>void, offset:number, setTotalPage:(page:number)=>void)=>{
@@ -82,6 +83,7 @@ export default function ListForm() {
             setLoading(true)
             await deleteFormApi(id)
             formApiCall(setFormList, setLoading, page, setTotalPage)
+            triggerToast("info", "Form Deleted")
         }
         catch(error)
         {
