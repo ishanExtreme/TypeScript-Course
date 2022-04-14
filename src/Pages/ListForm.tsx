@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
 import {useQueryParams, navigate, Link} from 'raviger'
 import FormField from "../components/FormField";
-import {formData, formField} from '../types/form'
 import {FormDataApi} from '../types/apis'
 import CreateForm from '../components/CreateForm'
 import { getFormList, deleteFormApi } from "../apis/apiTypeForm";
 import Paginator from '../components/Paginator'
+import CopyClipboard from '../components/CopyClipboard'
 
 const formApiCall = async (setFormList:(form:FormDataApi[])=>void, 
 setLoading:(load:boolean)=>void, offset:number, setTotalPage:(page:number)=>void)=>{
@@ -158,10 +158,12 @@ export default function ListForm() {
                                     {form.title}
                                 </p>
 
-                                <div className="grid ml-2 gap-1 grid-cols-3">
+                                <div className="grid ml-2 gap-1 grid-cols-4">
                                     <Link href={`/preview/${form.id}`} className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
                                         <img src="./images/icons/prev.png"/>
                                     </Link>
+
+                                    <CopyClipboard formID={form.id?form.id:0} />
 
                                     <Link href={`/form/${form.id}`} type="button" className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
                                         <img src="./images/icons/edit.png"/>

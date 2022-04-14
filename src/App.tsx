@@ -3,7 +3,6 @@ import 'tw-elements';
 import AppRouter from './routes/AppRouter';
 import {me} from './apis/apiTypeForm'
 import {user} from './types/user'
-import Navbar from './components/Navbar'
 
 
 const getCurrentUser = async (setCurrentUser: (user:user)=>void) =>{
