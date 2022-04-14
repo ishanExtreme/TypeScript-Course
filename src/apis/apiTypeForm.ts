@@ -26,7 +26,7 @@ const request = async (endpoint: string, method:RequestMethod = 'GET', data:any 
     const token = localStorage.getItem("token");
     let auth = token ? "Token " + token : "";
 
-    if(anonymousAccess)
+    if(anonymousAccess && auth === "")
         auth = "BASIC " + window.btoa("extreme:Ishan@2605");
 
 
