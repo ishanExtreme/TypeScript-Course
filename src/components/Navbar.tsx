@@ -1,5 +1,4 @@
-import { userInfo } from "os";
-import { Link, navigate } from "raviger";
+import { Link } from "raviger";
 import React from "react";
 import { user } from "../types/user";
 
@@ -25,9 +24,9 @@ export default function Navbar(props:{user:user}) {
     </button>
 
     <div className="collapse navbar-collapse flex-grow items-center" id="navbarSupportedContent">
-    <a className="flex items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 mt-2 lg:mt-0 mr-1">
+    <button className="flex items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 mt-2 lg:mt-0 mr-1">
         <h3 className="text-blue-400 text-xl font-bold">{props.user?props.user.username:"Anonymous"}</h3>
-    </a>
+    </button>
 
     <ul className="navbar-nav flex flex-col pl-0 list-style-none mr-auto w-[90%] justify-center">
         <li className="nav-item p-2">

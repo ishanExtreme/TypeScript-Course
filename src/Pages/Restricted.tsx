@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { triggerToast } from "../utils/notification";
+import React from "react";
 
 export default function Restricted() {
 

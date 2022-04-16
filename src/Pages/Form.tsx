@@ -3,7 +3,7 @@ import { useState, useEffect, useReducer} from 'react';
 import FormField from '../components/FormField';
 import Header from '../components/Header';
 import {Link, navigate} from 'raviger'
-import {formData, formField, fieldType, textFieldType} from '../types/form'
+import {formData, formField, fieldType} from '../types/form'
 import {FormAction} from '../types/action'
 import DropDownEditView from "../components/DropDownEditView";
 import DropDownField from "../components/DropDownField"

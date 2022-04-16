@@ -1,5 +1,4 @@
-import { FormApi, FormFieldApi, formSubmission, PaginationParams } from "../types/apis";
-import { formField } from "../types/form";
+import { FormApi, formSubmission, PaginationParams } from "../types/apis";
 
 const API_BASE_URL = "https://tsapi.coronasafe.live/api/"
 
@@ -9,7 +8,7 @@ const request = async (endpoint: string, method:RequestMethod = 'GET', data:any 
 
     let url;
     let payload;
-    if(method == 'GET')
+    if(method === 'GET')
     {
         const requestParams = data ? `?${Object.keys(data).map(key => `${key}=${data[key]}`).join('&')}`:""
         url = `${API_BASE_URL}${endpoint}${requestParams}`

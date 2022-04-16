@@ -3,7 +3,6 @@ import 'tw-elements';
 import AppRouter from './routes/AppRouter';
 import {me} from './apis/apiTypeForm'
 import {user} from './types/user'
-import {triggerToast} from './utils/notification'
 
 const getCurrentUser = async (setCurrentUser: (user:user)=>void) =>{
   const currtUser = await me();

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {useQueryParams, navigate, Link} from 'raviger'
+import {useQueryParams, Link} from 'raviger'
 import FormField from "../components/FormField";
 import {FormDataApi} from '../types/apis'
 import CreateForm from '../components/CreateForm'
@@ -166,8 +166,7 @@ export default function ListForm() {
                     </div>
                 </div>
                 :
-                formList.
-                filter((form)=>
+                formList.filter((form)=>
                     form.title.toLowerCase().includes(search?.toLocaleLowerCase() || "")
                     )
                     .map((form, index)=>{
@@ -186,20 +185,20 @@ export default function ListForm() {
                                 <li className="grid ml-2 gap-1 grid-cols-4">
                                     <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
                                         <Link href={`/preview/${form.id}`} className="inline-block shadow-md w-9 h-9">
-                                            <img src="./images/icons/prev.png"/>
+                                            <img src="./images/icons/prev.png" alt="preview"/>
                                         </Link>
                                     </motion.div>
 
                                     <CopyClipboard formID={form.id?form.id:0} />
                                     <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
                                         <Link href={`/form/${form.id}`} type="button" className="inline-block shadow-md w-9 h-9">
-                                            <img src="./images/icons/edit.png"/>
+                                            <img src="./images/icons/edit.png" alt="edit"/>
                                         </Link>
                                     </motion.div>
 
                                     <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
                                         <button onClick={()=>deleteForm(form.id?form.id:0)} type="button" className="inline-block shadow-md w-9 h-9">
-                                            <img src="./images/icons/del.png"/>   
+                                            <img src="./images/icons/del.png" alt="delete"/>   
                                         </button>
                                     </motion.div>
                                 </li>

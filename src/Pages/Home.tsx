@@ -1,22 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {Link} from 'raviger'
 import { triggerToast } from "../utils/notification";
 import SlideTop from '../animations/SlideTop'
 import {motion} from 'framer-motion'
 
 export default function Home() {
-
-    const floatVariant1 = {
-        hidden: { y:'-10px'},
-        visible: {
-          y:'10px',
-          transition: {
-            repeat: Infinity,
-            repeatType: "reverse",
-            duration: 1,
-          }
-        }
-    };
 
     return (
        

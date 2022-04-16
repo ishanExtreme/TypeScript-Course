@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import { user } from "../types/user";
 import Navbar from "./Navbar";
 import { ToastContainer } from 'react-toastify';
