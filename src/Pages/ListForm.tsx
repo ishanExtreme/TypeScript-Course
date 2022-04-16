@@ -7,6 +7,8 @@ import { getFormList, deleteFormApi } from "../apis/apiTypeForm";
 import Paginator from '../components/Paginator'
 import CopyClipboard from '../components/CopyClipboard'
 import { triggerToast } from "../utils/notification";
+import {motion} from 'framer-motion'
+import Appear from '../animations/Appear'
 
 const formApiCall = async (setFormList:(form:FormDataApi[])=>void, 
 setLoading:(load:boolean)=>void, offset:number, setTotalPage:(page:number)=>void)=>{
@@ -16,6 +18,20 @@ setLoading:(load:boolean)=>void, offset:number, setTotalPage:(page:number)=>void
     setTotalPage(Math.ceil(forms.count/3))
     setLoading(false)
 
+}
+
+  
+const childVariant = (delay:number)=> {
+  
+    return {
+        hidden: { opacity: 0 },
+        visible: { 
+            opacity: 1,
+            transition: {
+                delay:delay
+            }
+        }
+    }
 }
 
 export default function ListForm() {
@@ -124,7 +140,7 @@ export default function ListForm() {
     return (
       
         
-            <div className="p-4 max-h-full overflow-auto mx-auto bg-white shadow-lg rounded-xl min-w-[50%] text-center">
+            <Appear className="p-4 max-h-full overflow-auto mx-auto bg-white shadow-lg rounded-xl min-w-[50%] text-center">
                 
                 <CreateForm open={open} toogleOpen={hanldeOpenToogle} />
                 
@@ -142,6 +158,7 @@ export default function ListForm() {
                     <FormField label="Search" type="text" handleChangeCB={handleSearchChange} value={searchString} id="1" focus={true}/>
                 </form>
                 
+               
                 {loading?
                 <div className="flex flex-row justify-center mb-3"> 
                     <div className="spinner-grow inline-block w-8 h-8 bg-current rounded-full opacity-0" role="status">
@@ -155,42 +172,57 @@ export default function ListForm() {
                     )
                     .map((form, index)=>{
                     return (
-                            <ul tabIndex={0} key={index} className="flex flex-row justify-center mb-3">         
+                            <motion.ul
+                            variants={childVariant(index*0.3)}
+                            initial="hidden"
+                            animate="visible" 
+                            tabIndex={0} 
+                            key={index} 
+                            className="flex flex-row justify-center mb-3">         
                                 <li className="text-sky-500 text-center decoration-solid text-2xl mb-4 mr-2 w-20 truncate">
                                     {form.title}
                                 </li>
 
                                 <li className="grid ml-2 gap-1 grid-cols-4">
-                                    <Link href={`/preview/${form.id}`} className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
-                                        <img src="./images/icons/prev.png"/>
-                                    </Link>
+                                    <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                                        <Link href={`/preview/${form.id}`} className="inline-block shadow-md w-9 h-9">
+                                            <img src="./images/icons/prev.png"/>
+                                        </Link>
+                                    </motion.div>
 
                                     <CopyClipboard formID={form.id?form.id:0} />
+                                    <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                                        <Link href={`/form/${form.id}`} type="button" className="inline-block shadow-md w-9 h-9">
+                                            <img src="./images/icons/edit.png"/>
+                                        </Link>
+                                    </motion.div>
 
-                                    <Link href={`/form/${form.id}`} type="button" className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
-                                        <img src="./images/icons/edit.png"/>
-                                    </Link>
-
-                                    <button onClick={()=>deleteForm(form.id?form.id:0)} type="button" className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
-                                        <img src="./images/icons/del.png"/>
-                                    </button>
+                                    <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                                        <button onClick={()=>deleteForm(form.id?form.id:0)} type="button" className="inline-block shadow-md w-9 h-9">
+                                            <img src="./images/icons/del.png"/>   
+                                        </button>
+                                    </motion.div>
                                 </li>
-                            </ul>
+                            </motion.ul>
                             );
                         })}
+                        
 
 
                     
+                    <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                        <button type="button" onClick={createNewForm} className="mt-5 inline-block  px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-green active:shadow-lg transition duration-150 ease-in-out">New Form</button>
+                    </motion.div>
 
-                    <button type="button" onClick={createNewForm} className="mt-5 inline-block  px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-green active:shadow-lg transition duration-150 ease-in-out">New Form</button>
-                
                     <Paginator currentPage={page} totalPage={totalPage} incrementPage={handleIncrementPage} decrementPage={handleDecrementPage}/>
                 </div>
                 <div className="py-3 px-6 border-t border-gray-300 text-gray-600">
-                    <Link href="/" className="inline-block  px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Home</Link>
-                </div>
+                    <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                        <Link href="/" className="inline-block  px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Home</Link>
+                    </motion.div>
+               </div>
             
-            </div>
+            </Appear>
         
             
         

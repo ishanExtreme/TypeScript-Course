@@ -2,6 +2,7 @@ import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard'; 
 import { useState } from 'react';
 import { triggerToast } from '../utils/notification';
+import {motion} from 'framer-motion'
 
 export default function CopyClipboard(props:{formID:number}) { 
     const [copied, setCopied] = useState(false);
@@ -17,9 +18,11 @@ export default function CopyClipboard(props:{formID:number}) {
     return (
         <div className="flex">
         <CopyToClipboard text={`localhost:3000/preview/${props.formID}`} onCopy={onCopy}>
-            <button className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
+        <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+            <button className="inline-block shadow-md w-9 h-9">
                 <img src={process.env.PUBLIC_URL+"  /images/icons/clip.png"}/>
             </button>
+        </motion.div>
         </CopyToClipboard>
         </div>
     );

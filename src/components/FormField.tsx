@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import {motion} from 'framer-motion'
 
 export default function FormField(
     props:{
@@ -35,11 +36,13 @@ export default function FormField(
 
                 {props.handleClickCB &&
                     <div className="flex space-x-2 justify-center">
-                        <button
-                        onClick={props.handleClickCB} 
-                        className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                            {props.label === "Add Field"?"Add Field":"Remove"}
-                        </button>
+                        <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                            <button
+                            onClick={props.handleClickCB} 
+                            className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                {props.label === "Add Field"?"Add Field":"Remove"}
+                            </button>
+                        </motion.div>
                     </div>
                 }
               

@@ -12,6 +12,8 @@ import MultiSelectEditView from "../components/MultiSelectEditView";
 import { FormApi, FormFieldApi } from "../types/apis";
 import { addFormField, changeForm, changeFormField, deleteFormField, getForm, getFormFields } from "../apis/apiTypeForm";
 import { triggerToast } from "../utils/notification";
+import Appear from "../animations/Appear";
+import {motion} from 'framer-motion'
 
 const fieldTypeOptions:fieldType[] = ["text", "email", "date", "tel", "dropdown", "textArea", "radio"]
 
@@ -96,6 +98,19 @@ const callAddFieldApi:(id:number, newField:formField)=>Promise<FormFieldApi> = a
   }
 
 
+}
+
+const childVariant = (delay:number)=> {
+  
+  return {
+      hidden: { opacity: 0 },
+      visible: { 
+          opacity: 1,
+          transition: {
+              delay:delay
+          }
+      }
+  }
 }
 
 export default function Form(props:{id:number}){
@@ -504,7 +519,7 @@ export default function Form(props:{id:number}){
 
     return (
         
-          <div className="p-4 px-10 mx-auto max-h-full bg-white shadow-lg rounded-xl overflow-auto">
+          <Appear className="mt-5 p-4 py-10 px-10 mx-auto max-h-full bg-white shadow-lg rounded-xl overflow-auto">
     
             <Header title="Welcome to #react-typescript with #tailwindcss "/>
             {loading || loadRemove?
@@ -524,9 +539,14 @@ export default function Form(props:{id:number}){
                 {fields.formFields.map((field, index)=>{
 
                   return (                   
-                    <div key={index} className="flex flex-col mb-5 bg-gray-200 shadow-lg rounded-xl w-[30rem] p-5 justify-center items-center gap-y-2">
+                    <motion.div 
+                    variants={childVariant(index*0.3)}
+                    initial="hidden"
+                    animate="visible" 
+                    key={index} 
+                    className="flex flex-col mb-5 bg-gray-200 shadow-lg rounded-xl w-[30rem] p-5 justify-center items-center gap-y-2">
                       {renderField(field)}
-                    </div>
+                    </motion.div>
                   )
 
                 })}
@@ -553,33 +573,38 @@ export default function Form(props:{id:number}){
                   <span className="visually-hidden">Loading...</span>
                 </div>
                 :
-                <button 
-                type="submit"
-                onClick={handleSubmit} 
-                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                  Submit
-                </button>
+                <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                  <button 
+                  type="submit"
+                  onClick={handleSubmit} 
+                  className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    Submit
+                  </button>
+                </motion.div>
                 }
-      
-                <button
-                onClick={()=>dispatch({type:"clear"})} 
-                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                  Clear
-                </button>
+                <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                  <button
+                  onClick={()=>dispatch({type:"clear"})} 
+                  className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    Clear
+                  </button>
+                </motion.div>
               </div>
-
+              
               <div className="flex space-x-2 justify-center mt-5">
-                <Link 
-                href="/list"
-                type="button" 
-                className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
-                  Close Form
-                </Link>
+                <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                  <Link 
+                  href="/list"
+                  type="button" 
+                  className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+                    Close Form
+                  </Link>
+                </motion.div>
               </div>
               </>
             }
     
-          </div>
+          </Appear>
         
       );
 }

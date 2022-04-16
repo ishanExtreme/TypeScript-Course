@@ -11,6 +11,8 @@ import MultiSelectField from '../components/MultiSelectField'
 import { getFormAnonymous, getFormFieldsPaginated, makeSubmission } from "../apis/apiTypeForm";
 import { formAnswer, FormFieldApi, formSubmission } from "../types/apis";
 import { triggerToast } from "../utils/notification";
+import {motion} from 'framer-motion'
+import Appear from "../animations/Appear";
 
 let formTitle:string
 let formDescription:string
@@ -359,20 +361,20 @@ export default function FormPreview(props:{id:number}) {
     return (
         
             loading?
-                <div className="flex flex-col justify-center items-center p-4 w-[30rem] h-[20rem] mx-auto bg-white shadow-lg rounded-xl">
+                <Appear className="flex flex-col justify-center items-center p-4 w-[30rem] h-[20rem] mx-auto bg-white shadow-lg rounded-xl">
                     <div className="flex flex-row justify-center  mt-3 mb-3"> 
                         <div className="spinner-grow inline-block w-8 h-8 bg-current rounded-full opacity-0" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                </div>
+                </Appear>
             :
                 fieldCount === 0 ? 
-                <div className="p-4 mx-auto bg-white shadow-lg rounded-xl">
+                <Appear className="p-4 mx-auto bg-white shadow-lg rounded-xl">
                     <h1>Form is Empty</h1>
-                </div>
+                </Appear>
                 :
-                <div className="flex flex-col justify-center items-center p-4 w-[30rem] h-[20rem] mx-auto bg-white shadow-lg rounded-xl">
+                <Appear className="flex flex-col justify-center items-center p-4 w-[30rem] h-[20rem] mx-auto bg-white shadow-lg rounded-xl">
             
                     <Header title={formTitle}/>
 
@@ -384,32 +386,38 @@ export default function FormPreview(props:{id:number}) {
                     
                     <div className="flex space-x-2 justify-center">
                         {currFieldIndex>0&&
-                            <button 
-                            type="submit"
-                            onClick={prevField} 
-                            className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                                Previous
-                            </button>
+                            <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                                <button 
+                                type="submit"
+                                onClick={prevField} 
+                                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    Previous
+                                </button>
+                            </motion.div>
                         }
                         {buttonState === "next"?
-                            <button 
-                            type="submit"
-                            onClick={nextField} 
-                            className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                                Next
-                            </button>
+                            <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                                <button 
+                                type="submit"
+                                onClick={nextField} 
+                                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    Next
+                                </button>
+                            </motion.div>
                         :
-                            <button 
-                            type="submit"
-                            onClick={submitForm} 
-                            className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                                Submit
-                            </button>
+                            <motion.div whileHover={{scale:1.1}} whileTap={{scale:0.9}} className="inline-flex">
+                                <button 
+                                type="submit"
+                                onClick={submitForm} 
+                                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    Submit
+                                </button>
+                            </motion.div>
                         }
                         
                     </div>
             
-                </div>
+                </Appear>
             
         
     );
