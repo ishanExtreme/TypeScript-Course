@@ -155,12 +155,12 @@ export default function ListForm() {
                     )
                     .map((form, index)=>{
                     return (
-                            <div key={index} className="flex flex-row justify-center mb-3">         
-                                <p className="text-sky-500 text-center decoration-solid text-2xl mb-4 mr-2">
+                            <ul tabIndex={0} key={index} className="flex flex-row justify-center mb-3">         
+                                <li className="text-sky-500 text-center decoration-solid text-2xl mb-4 mr-2 w-20 truncate">
                                     {form.title}
-                                </p>
+                                </li>
 
-                                <div className="grid ml-2 gap-1 grid-cols-4">
+                                <li className="grid ml-2 gap-1 grid-cols-4">
                                     <Link href={`/preview/${form.id}`} className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
                                         <img src="./images/icons/prev.png"/>
                                     </Link>
@@ -174,8 +174,8 @@ export default function ListForm() {
                                     <button onClick={()=>deleteForm(form.id?form.id:0)} type="button" className="inline-block shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-9 h-9">
                                         <img src="./images/icons/del.png"/>
                                     </button>
-                                </div>
-                            </div>
+                                </li>
+                            </ul>
                             );
                         })}
 
