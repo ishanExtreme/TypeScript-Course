@@ -33,7 +33,7 @@ const request = async (endpoint: string, method:RequestMethod = 'GET', data:any 
         url, {
         method: method,
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: auth,
         },
 
